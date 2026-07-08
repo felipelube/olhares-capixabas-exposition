@@ -140,7 +140,7 @@ def build():
         for n, (name, slug) in enumerate(photographers, 1)
     )
     body = f"""<header class="home">
-<p class="kicker"><span>Exposição fotográfica</span><span>{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}</span></p>
+<p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
 <div class="masthead">
 <h1>{display_title(title)}</h1>
 <p class="curator"><span class="label">Curadoria</span>{html.escape(site.get("curator", ""))}</p>
@@ -167,6 +167,9 @@ def build():
 {items}
 </ol>
 </main>
+<footer class="foot">
+{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}
+</footer>
 """
     (DIST / "index.html").write_text(page(title, body), encoding="utf-8")
 

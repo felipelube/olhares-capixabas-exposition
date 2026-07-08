@@ -45,6 +45,7 @@ h1 em {
 .label,
 .bar,
 .links,
+.foot,
 figcaption {
   font-size: 0.72rem;
   letter-spacing: 0.22em;
@@ -201,6 +202,16 @@ figcaption {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+}
+
+.foot {
+  margin-top: 8rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.foot a:hover {
+  color: var(--ink);
 }
 
 /* ---------- página do fotógrafo ---------- */
