@@ -36,6 +36,15 @@ def display_title(title):
     return f"{head} <em>{last}</em>" if head else last
 
 
+def links_html(meta, skip=("name", "bio", "title")):
+    """Any non-reserved frontmatter key becomes a link; bare emails get mailto:."""
+    return "\n".join(
+        f'<a href="{html.escape("mailto:" + url if "@" in url and ":" not in url else url)}">{html.escape(label)}</a>'
+        for label, url in meta.items()
+        if label not in skip
+    )
+
+
 def excerpt(text, limit=160):
     """First paragraph as a single plain-text line, truncated for meta description."""
     first = " ".join(text.split("\n\n")[0].split())
@@ -97,12 +106,15 @@ def build():
         page_title = meta.get("title", md.stem)
         out = DIST / md.stem
         out.mkdir()
+        bio = f'\n<p class="bio">{html.escape(meta["bio"])}</p>' if "bio" in meta else ""
+        links = links_html(meta)
+        links = f'\n<p class="links">{links}</p>' if links else ""
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
 </nav>
 <header class="artist">
-<h1>{display_title(page_title)}</h1>
+<h1>{display_title(meta.get("name", page_title))}</h1>{bio}{links}
 </header>
 <main>
 <div class="statement">
@@ -128,12 +140,7 @@ def build():
             shutil.copy(f, out / f.name)
 
         name = html.escape(meta["name"])
-        # any key besides name/bio becomes a link: "instagram: https://..."
-        links = "\n".join(
-            f'<a href="{html.escape("mailto:" + url if "@" in url and ":" not in url else url)}">{html.escape(label)}</a>'
-            for label, url in meta.items()
-            if label not in ("name", "bio")
-        )
+        links = links_html(meta)
         gallery = "\n".join(
             f'<figure><img src="{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy">'
             f"<figcaption>{n:02d}</figcaption></figure>"
@@ -175,7 +182,7 @@ def build():
 <p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
 <div class="masthead">
 <h1>{display_title(title)}</h1>
-<p class="curator"><span class="label">Curadoria</span>{html.escape(site.get("curator", ""))}</p>
+<p class="curator"><span class="label">Curadoria</span>{f'<a href="curadoria/">{html.escape(site.get("curator", ""))}</a>' if (ROOT / "curadoria.md").exists() else html.escape(site.get("curator", ""))}</p>
 </div>
 <p class="tagline">{html.escape(site.get("tagline", ""))}</p>
 <div class="details">

@@ -152,6 +152,10 @@ figcaption {
   white-space: nowrap;
 }
 
+.curator a:hover {
+  color: var(--muted);
+}
+
 .curator .label {
   display: block;
   margin-bottom: 0.5rem;
