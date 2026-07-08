@@ -64,6 +64,31 @@ def build():
     DIST.mkdir()
     shutil.copy(ROOT / "style.css", DIST / "style.css")
 
+    # páginas avulsas: qualquer .md na raiz além de index.md vira /<nome>/
+    pages = []
+    for md in sorted(ROOT.glob("*.md")):
+        if md.name in ("index.md", "README.md"):
+            continue
+        meta, text = parse_md(md)
+        page_title = meta.get("title", md.stem)
+        out = DIST / md.stem
+        out.mkdir()
+        body = f"""<nav class="bar">
+<a href="../">← {html.escape(title)}</a>
+<span>{html.escape(period)}</span>
+</nav>
+<header class="artist">
+<h1>{display_title(page_title)}</h1>
+</header>
+<main>
+<div class="statement">
+{paragraphs(text)}
+</div>
+</main>
+"""
+        (out / "index.html").write_text(page(f"{page_title} — {title}", body, depth=1), encoding="utf-8")
+        pages.append((page_title, md.stem))
+
     photographers = []
     for folder in sorted(p for p in SRC.iterdir() if p.is_dir()):
         meta, statement = parse_md(folder / "info.md")
@@ -115,7 +140,7 @@ def build():
         for n, (name, slug) in enumerate(photographers, 1)
     )
     body = f"""<header class="home">
-<p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
+<p class="kicker"><span>Exposição fotográfica</span><span>{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}</span></p>
 <div class="masthead">
 <h1>{display_title(title)}</h1>
 <p class="curator"><span class="label">Curadoria</span>{html.escape(site.get("curator", ""))}</p>
