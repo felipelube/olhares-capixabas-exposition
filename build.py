@@ -208,6 +208,15 @@ def build():
              site_name=title, canonical=base and f"{base}/"),
         encoding="utf-8")
 
+    if base:
+        urls = [f"{base}/"] + [f"{base}/{slug}/" for _, slug in pages + photographers]
+        (DIST / "sitemap.xml").write_text(
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + "\n".join(f"<url><loc>{html.escape(u)}</loc></url>" for u in urls)
+            + "\n</urlset>\n", encoding="utf-8")
+        (DIST / "robots.txt").write_text(f"Sitemap: {base}/sitemap.xml\n", encoding="utf-8")
+
     assert (DIST / "index.html").exists() and photographers, "empty build"
     print(f"ok: {len(photographers)} photographer(s) in {DIST}")
 
