@@ -36,10 +36,15 @@ def display_title(title):
     return f"{head} <em>{last}</em>" if head else last
 
 
+EXTERNAL = ' target="_blank" rel="noopener"'
+
+
 def links_html(meta, skip=("name", "bio", "title")):
     """Any non-reserved frontmatter key becomes a link; bare emails get mailto:."""
     return "\n".join(
-        f'<a href="{html.escape("mailto:" + url if "@" in url and ":" not in url else url)}">{html.escape(label)}</a>'
+        f'<a href="mailto:{html.escape(url)}">{html.escape(label)}</a>'
+        if "@" in url and ":" not in url else
+        f'<a href="{html.escape(url)}"{EXTERNAL}>{html.escape(label)}</a>'
         for label, url in meta.items()
         if label not in skip
     )
@@ -193,7 +198,7 @@ def build():
 <div>
 <p class="label">Onde</p>
 <p class="detail-value">{html.escape(site.get("venue", ""))}</p>
-<p class="detail-address"><a href="https://maps.google.com/?q={quote(site.get("venue", "") + ", " + site.get("address", ""))}">{html.escape(site.get("address", ""))}</a></p>
+<p class="detail-address"><a href="https://maps.google.com/?q={quote(site.get("venue", "") + ", " + site.get("address", ""))}"{EXTERNAL}>{html.escape(site.get("address", ""))}</a></p>
 </div>
 </div>
 </header>
@@ -208,7 +213,7 @@ def build():
 </main>
 <footer class="foot">
 <span>{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}</span>
-<span>webdesign by <a href="https://www.linkedin.com/in/felipelube">Felipe Lube</a></span>
+<span>webdesign by <a href="https://www.linkedin.com/in/felipelube"{EXTERNAL}>Felipe Lube</a></span>
 </footer>
 """
     (DIST / "index.html").write_text(
