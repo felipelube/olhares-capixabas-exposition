@@ -3,6 +3,7 @@
 import html
 import shutil
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "photographers"
@@ -77,7 +78,7 @@ def build():
         name = html.escape(meta["name"])
         # qualquer chave além de name/bio vira link: "instagram: https://..."
         links = "\n".join(
-            f'<a href="{html.escape(url)}">{html.escape(label)}</a>'
+            f'<a href="{html.escape("mailto:" + url if "@" in url and ":" not in url else url)}">{html.escape(label)}</a>'
             for label, url in meta.items()
             if label not in ("name", "bio")
         )
@@ -114,9 +115,20 @@ def build():
         for n, (name, slug) in enumerate(photographers, 1)
     )
     body = f"""<header class="home">
-<p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(period)}</span></p>
+<p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
 <h1>{display_title(title)}</h1>
 <p class="tagline">{html.escape(site.get("tagline", ""))}</p>
+<div class="details">
+<div>
+<p class="label">Quando</p>
+<p class="detail-value">{html.escape(period)}</p>
+</div>
+<div>
+<p class="label">Onde</p>
+<p class="detail-value">{html.escape(site.get("venue", ""))}</p>
+<p class="detail-address"><a href="https://maps.google.com/?q={quote(site.get("venue", "") + ", " + site.get("address", ""))}">{html.escape(site.get("address", ""))}</a></p>
+</div>
+</div>
 </header>
 <main>
 <div class="intro">

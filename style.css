@@ -130,6 +130,40 @@ figcaption {
   transform: translateX(0.75rem);
 }
 
+.details {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-top: 6rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.detail-value {
+  margin-top: 1.2rem;
+  font-family: var(--serif);
+  font-weight: 340;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  line-height: 1.15;
+}
+
+.detail-address {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.detail-address a:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 40rem) {
+  .details {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
 /* ---------- página do fotógrafo ---------- */
 .bar {
   display: flex;
