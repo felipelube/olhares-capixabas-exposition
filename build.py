@@ -207,7 +207,8 @@ def build():
 </ol>
 </main>
 <footer class="foot">
-{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}
+<span>{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}</span>
+<span>webdesign by <a href="https://www.linkedin.com/in/felipelube">Felipe Lube</a></span>
 </footer>
 """
     (DIST / "index.html").write_text(
