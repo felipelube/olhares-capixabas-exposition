@@ -11,7 +11,7 @@ Tudo é arquivo `.md` com frontmatter (bloco `chave: valor` entre `---`).
 **Fotógrafo** — pasta em `photographers/nome-da-pessoa/` (o nome da pasta vira a URL) com um `info.md`:
 
 - Frontmatter: `name`, `bio` e qualquer outra chave vira link (`instagram: https://...` → link "Instagram"; `email: pessoa@dominio.com` vira link mailto automaticamente).
-- Corpo: o statement da série. Linha em branco separa parágrafos.
+- Corpo: o statement da série. Linha em branco separa parágrafos. O primeiro parágrafo aparece em destaque (itálico, grande); os seguintes em texto menor — pode ser longo.
 - As fotos ficam na mesma pasta (`.jpg`, `.png`, `.webp`...), em ordem alfabética — prefixe com `01-`, `02-` para controlar a ordem.
 
 Copie qualquer pasta existente para começar.

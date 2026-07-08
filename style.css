@@ -130,6 +130,41 @@ figcaption {
   transform: translateX(0.75rem);
 }
 
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.curator {
+  margin-bottom: 1.5rem;
+  text-align: right;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.curator .label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-style: normal;
+}
+
+@media (max-width: 40rem) {
+  .masthead {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .curator {
+    text-align: left;
+    margin-bottom: 0;
+  }
+}
+
 .details {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -207,6 +242,16 @@ figcaption {
   font-size: 1.35rem;
   line-height: 1.55;
   color: #c9c6bf;
+}
+
+/* primeiro parágrafo é o lede; o resto vira texto corrido menor */
+.statement p + p {
+  margin-top: 1.6em;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--muted);
 }
 
 /* galeria: ritmo de três — inteira, grande à esquerda, menor deslocada */
