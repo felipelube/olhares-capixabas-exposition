@@ -116,7 +116,10 @@ def build():
     )
     body = f"""<header class="home">
 <p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
+<div class="masthead">
 <h1>{display_title(title)}</h1>
+<p class="curator"><span class="label">Curadoria</span>{html.escape(site.get("curator", ""))}</p>
+</div>
 <p class="tagline">{html.escape(site.get("tagline", ""))}</p>
 <div class="details">
 <div>
