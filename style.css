@@ -40,7 +40,7 @@ h1 em {
   font-weight: 300;
 }
 
-/* rótulos pequenos em caixa alta — o "metadado" das referências */
+/* small uppercase labels — the "metadata" from the references */
 .kicker,
 .label,
 .bar,
@@ -214,7 +214,7 @@ figcaption {
   color: var(--ink);
 }
 
-/* ---------- página do fotógrafo ---------- */
+/* ---------- photographer page ---------- */
 .bar {
   display: flex;
   justify-content: space-between;
@@ -259,7 +259,7 @@ figcaption {
   color: #c9c6bf;
 }
 
-/* primeiro parágrafo é o lede; o resto vira texto corrido menor */
+/* first paragraph is the lede; the rest becomes smaller body text */
 .statement p + p {
   margin-top: 1.6em;
   font-family: var(--sans);
@@ -269,7 +269,7 @@ figcaption {
   color: var(--muted);
 }
 
-/* galeria: ritmo de três — inteira, grande à esquerda, menor deslocada */
+/* gallery: rhythm of three — full width, large left, smaller offset */
 .gallery {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -293,7 +293,7 @@ figcaption {
 .gallery img {
   display: block;
   max-width: 100%;
-  max-height: 85vh; /* retrato não vira um paredão */
+  max-height: 85vh; /* portraits must not become a wall */
   width: auto;
   height: auto;
 }

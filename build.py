@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera o site em dist/. Uso: python3 build.py"""
+"""Builds the site into dist/. Usage: python3 build.py"""
 import html
 import shutil
 from pathlib import Path
@@ -13,7 +13,7 @@ FONT = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..14
 
 
 def parse_md(path):
-    """Frontmatter (chave: valor entre ---) + corpo. ponytail: sem lib de yaml/md."""
+    """Frontmatter (key: value between ---) + body. ponytail: no yaml/md lib."""
     text = path.read_text(encoding="utf-8")
     meta, body = {}, text
     if text.startswith("---"):
@@ -31,7 +31,7 @@ def paragraphs(text):
 
 
 def display_title(title):
-    """Última palavra em itálico: 'Olhares <em>Capixabas</em>'."""
+    """Last word in italics: 'Olhares <em>Capixabas</em>'."""
     head, _, last = html.escape(title).rpartition(" ")
     return f"{head} <em>{last}</em>" if head else last
 
@@ -64,7 +64,7 @@ def build():
     DIST.mkdir()
     shutil.copy(ROOT / "style.css", DIST / "style.css")
 
-    # páginas avulsas: qualquer .md na raiz além de index.md vira /<nome>/
+    # standalone pages: any root .md besides index.md becomes /<name>/
     pages = []
     for md in sorted(ROOT.glob("*.md")):
         if md.name in ("index.md", "README.md"):
@@ -101,7 +101,7 @@ def build():
             shutil.copy(f, out / f.name)
 
         name = html.escape(meta["name"])
-        # qualquer chave além de name/bio vira link: "instagram: https://..."
+        # any key besides name/bio becomes a link: "instagram: https://..."
         links = "\n".join(
             f'<a href="{html.escape("mailto:" + url if "@" in url and ":" not in url else url)}">{html.escape(label)}</a>'
             for label, url in meta.items()
@@ -173,8 +173,8 @@ def build():
 """
     (DIST / "index.html").write_text(page(title, body), encoding="utf-8")
 
-    assert (DIST / "index.html").exists() and photographers, "build vazio"
-    print(f"ok: {len(photographers)} fotógrafo(s) em {DIST}")
+    assert (DIST / "index.html").exists() and photographers, "empty build"
+    print(f"ok: {len(photographers)} photographer(s) in {DIST}")
 
 
 if __name__ == "__main__":
