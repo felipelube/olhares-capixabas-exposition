@@ -36,14 +36,36 @@ def display_title(title):
     return f"{head} <em>{last}</em>" if head else last
 
 
-def page(title, body, depth=0):
+def excerpt(text, limit=160):
+    """First paragraph as a single plain-text line, truncated for meta description."""
+    first = " ".join(text.split("\n\n")[0].split())
+    return first if len(first) <= limit else first[:limit].rsplit(" ", 1)[0] + "…"
+
+
+def page(title, body, depth=0, desc="", site_name="", canonical="", image=""):
     css = "../" * depth + "style.css"
+    e = html.escape
+    seo = f'<meta name="description" content="{e(desc)}">\n' if desc else ""
+    seo += f'<meta property="og:title" content="{e(title)}">\n'
+    if desc:
+        seo += f'<meta property="og:description" content="{e(desc)}">\n'
+    seo += '<meta property="og:type" content="website">\n'
+    seo += '<meta property="og:locale" content="pt_BR">\n'
+    if site_name:
+        seo += f'<meta property="og:site_name" content="{e(site_name)}">\n'
+    if canonical:
+        seo += f'<link rel="canonical" href="{e(canonical)}">\n'
+        seo += f'<meta property="og:url" content="{e(canonical)}">\n'
+    if image:
+        seo += f'<meta property="og:image" content="{e(image)}">\n'
+    seo += f'<meta name="twitter:card" content="{"summary_large_image" if image else "summary"}">'
     return f"""<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)}</title>
+<title>{e(title)}</title>
+{seo}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONT}">
 <link rel="stylesheet" href="{css}">
@@ -59,6 +81,8 @@ def build():
     site, intro = parse_md(ROOT / "index.md")
     title = site["title"]
     period = site.get("period", "")
+    # absolute URLs (canonical, og:image) only work with a real domain in `url:`
+    base = site.get("url", "").rstrip("/")
 
     shutil.rmtree(DIST, ignore_errors=True)
     DIST.mkdir()
@@ -86,7 +110,10 @@ def build():
 </div>
 </main>
 """
-        (out / "index.html").write_text(page(f"{page_title} — {title}", body, depth=1), encoding="utf-8")
+        (out / "index.html").write_text(
+            page(f"{page_title} — {title}", body, depth=1, desc=excerpt(text),
+                 site_name=title, canonical=base and f"{base}/{md.stem}/"),
+            encoding="utf-8")
         pages.append((page_title, md.stem))
 
     photographers = []
@@ -130,7 +157,12 @@ def build():
 </section>
 </main>
 """
-        (out / "index.html").write_text(page(f'{meta["name"]} — {title}', body, depth=1), encoding="utf-8")
+        (out / "index.html").write_text(
+            page(f'{meta["name"]} — {title}', body, depth=1,
+                 desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
+                 canonical=base and f"{base}/{slug}/",
+                 image=base and photos and f"{base}/{slug}/{photos[0].name}" or ""),
+            encoding="utf-8")
         photographers.append((meta["name"], slug))
 
     photographers.sort(key=lambda p: p[0].lower())
@@ -171,7 +203,10 @@ def build():
 {" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}
 </footer>
 """
-    (DIST / "index.html").write_text(page(title, body), encoding="utf-8")
+    (DIST / "index.html").write_text(
+        page(title, body, desc=site.get("tagline", "") or excerpt(intro),
+             site_name=title, canonical=base and f"{base}/"),
+        encoding="utf-8")
 
     assert (DIST / "index.html").exists() and photographers, "empty build"
     print(f"ok: {len(photographers)} photographer(s) in {DIST}")

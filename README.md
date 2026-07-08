@@ -8,7 +8,7 @@ Tudo é arquivo `.md` com frontmatter (bloco `chave: valor` entre `---`).
 
 **Páginas avulsas** — qualquer `.md` na raiz (além de `index.md` e `README.md`) vira uma página em `/<nome-do-arquivo>/`, com link automático na barra do topo da homepage. Frontmatter: `title`. Ex.: `agradecimentos.md`.
 
-**Homepage** — `index.md`: `title`, `period` e `tagline` no frontmatter; o corpo do arquivo é o texto de apresentação (opcional, pode ficar vazio).
+**Homepage** — `index.md`: `title`, `period`, `tagline`, `venue`, `address` e `curator` no frontmatter; adicione `url: https://seudominio.com.br` quando o site tiver domínio — isso ativa canonical e og:image (compartilhamento em redes sociais); o corpo do arquivo é o texto de apresentação (opcional, pode ficar vazio).
 
 **Fotógrafo** — pasta em `photographers/nome-da-pessoa/` (o nome da pasta vira a URL) com um `info.md`:
 
