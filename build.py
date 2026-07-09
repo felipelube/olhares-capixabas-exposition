@@ -199,6 +199,12 @@ def build():
                 f'<figure><div class="placeholder"><span>{n:02d}</span></div></figure>'
                 for n in range(1, len(photos) + 1)
             )
+        # optional long-form bio rendered after the gallery
+        bio_md = folder / "bio.md"
+        about = ""
+        if bio_md.exists():
+            about = (f'\n<section class="about">\n<p class="label">Sobre {name}</p>\n'
+                     f"{paragraphs(bio_md.read_text(encoding='utf-8'))}\n</section>")
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
@@ -214,7 +220,7 @@ def build():
 </div>
 <section class="gallery">
 {gallery}
-</section>
+</section>{about}
 {overlays}
 </main>
 {LIGHTBOX_KEYS if started and photos else ""}"""

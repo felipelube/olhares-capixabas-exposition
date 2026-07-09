@@ -448,6 +448,22 @@ html:has(.lightbox:target) {
   outline-offset: 2px;
 }
 
+/* long-form bio after the gallery */
+.about {
+  margin-top: 7rem;
+  max-width: 34rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.about .label {
+  margin: 0 0 1.5rem;
+}
+
+.about p + p {
+  margin-top: 1em;
+}
+
 /* pre-opening: framed empty tiles hold the photos' place */
 .gallery .label {
   grid-column: 1 / -1;
