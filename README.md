@@ -1,6 +1,6 @@
 # Olhares Capixabas
 
-Static website for **"Olhares Capixabas"**, a photography exposition by 7 photographers from Espírito Santo, Brazil, running August 1–31 at the Tribunal de Justiça do Espírito Santo (Vitória), curated by Profa. Katia Ludolf. Live domain: <https://mostraolharescapixabas.art.br>.
+Static website for **"Olhares Capixabas"**, a photography exposition by 7 photographers from Espírito Santo, Brazil, running September 1–30 at the Tribunal de Justiça do Espírito Santo (Vitória), curated by Profa. Katia Ludolf. Live domain: <https://mostraolharescapixabas.art.br>.
 
 The site is intentionally minimal to operate: **markdown files in, plain HTML out**. There is no CMS, no framework, no npm — the only requirement is Python 3 (standard library only). You edit text files, run one script, and upload a folder of static files to any web host.
 
