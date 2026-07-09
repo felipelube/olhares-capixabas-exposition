@@ -157,9 +157,16 @@ def build():
         if started:
             for f in photos:
                 shutil.copy(f, out / f.name)
+            # click a photo → CSS :target lightbox; closing links back to the thumbnail
             gallery = "\n".join(
-                f'<figure><img src="{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy">'
+                f'<figure id="g-{n:02d}"><a href="#foto-{n:02d}">'
+                f'<img src="{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy"></a>'
                 f"<figcaption>{n:02d}</figcaption></figure>"
+                for n, f in enumerate(photos, 1)
+            )
+            gallery += "\n" + "\n".join(
+                f'<a class="lightbox" id="foto-{n:02d}" href="#g-{n:02d}">'
+                f'<img src="{html.escape(f.name)}" alt="Fotografia de {name}"></a>'
                 for n, f in enumerate(photos, 1)
             )
         else:
