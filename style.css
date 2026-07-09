@@ -372,6 +372,11 @@ figcaption {
   cursor: zoom-in;
 }
 
+/* freeze page scroll while a photo is full screen */
+html:has(.lightbox:target) {
+  overflow: hidden;
+}
+
 .lightbox {
   display: none;
   position: fixed;
@@ -393,6 +398,20 @@ figcaption {
   display: grid;
   place-items: center;
   cursor: zoom-out;
+}
+
+.lightbox .close {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(1rem, 3vw, 2rem);
+  font-family: var(--serif);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--muted);
+}
+
+.lightbox .close:hover {
+  color: var(--ink);
 }
 
 .lightbox .shut img {

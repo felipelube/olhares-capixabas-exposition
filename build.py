@@ -188,6 +188,7 @@ def build():
             # overlays live outside .gallery so its nth-child rhythm rules can't touch them
             overlays = "\n".join(
                 f'<figure class="lightbox" id="foto-{n:02d}">'
+                f'<a class="close" href="#g-{n:02d}" aria-label="Fechar">×</a>'
                 f'<a class="shut" href="#g-{n:02d}"><img src="{html.escape(f.name)}" alt="Fotografia de {name}"></a>'
                 f"<nav>{thumbs(n)}</nav></figure>"
                 for n, f in enumerate(photos, 1)
