@@ -23,6 +23,16 @@ body {
   padding: 2.5rem clamp(1.25rem, 5vw, 4rem) 8rem;
 }
 
+/* film grain: inline SVG noise, no request, barely there */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
 a {
   color: inherit;
   text-decoration: none;
