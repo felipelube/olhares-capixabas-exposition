@@ -10,8 +10,6 @@ SRC = ROOT / "photographers"
 DIST = ROOT / "dist"
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg"}
 FONT = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap"
-# one accent hue per photographer — even hue steps, same sat/light so they sit quietly on black
-PALETTE = [f"hsl({h} 40% 62%)" for h in range(15, 360, 30)]
 
 
 def parse_md(path):
@@ -135,11 +133,14 @@ def build():
             encoding="utf-8")
         pages.append((page_title, md.stem))
 
+    folders = sorted(p for p in SRC.iterdir() if p.is_dir())
+    # one accent hue per photographer — even hue steps, same sat/light so they sit quietly on black
+    palette = [f"hsl({15 + i * 360 // len(folders)} 40% 62%)" for i in range(len(folders))]
     photographers = []
-    for i, folder in enumerate(sorted(p for p in SRC.iterdir() if p.is_dir())):
+    for i, folder in enumerate(folders):
         meta, statement = parse_md(folder / "info.md")
         slug = folder.name
-        accent = PALETTE[i % len(PALETTE)]
+        accent = palette[i]
         out = DIST / slug
         out.mkdir()
 
@@ -188,8 +189,8 @@ def build():
         for n, (name, slug, accent) in enumerate(photographers, 1)
     )
     strip = ", ".join(
-        f"{c} {i * 100 / len(PALETTE):.1f}% {(i + 1) * 100 / len(PALETTE):.1f}%"
-        for i, c in enumerate(PALETTE)
+        f"{c} {i * 100 / len(palette):.1f}% {(i + 1) * 100 / len(palette):.1f}%"
+        for i, c in enumerate(palette)
     )
     body = f"""<header class="home">
 <p class="kicker" style="border-image: linear-gradient(90deg, {strip}) 1"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
