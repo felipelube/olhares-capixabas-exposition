@@ -188,12 +188,8 @@ def build():
         f"<span class=\"name\">{html.escape(name)}</span></a></li>"
         for n, (name, slug, accent) in enumerate(photographers, 1)
     )
-    strip = ", ".join(
-        f"{c} {i * 100 / len(palette):.1f}% {(i + 1) * 100 / len(palette):.1f}%"
-        for i, c in enumerate(palette)
-    )
     body = f"""<header class="home">
-<p class="kicker" style="border-image: linear-gradient(90deg, {strip}) 1"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
+<p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
 <div class="masthead">
 <h1>{display_title(title)}</h1>
 <p class="curator"><span class="label">Curadoria</span>{f'<a href="curadoria/">{html.escape(site.get("curator", ""))}</a>' if (ROOT / "curadoria.md").exists() else html.escape(site.get("curator", ""))}</p>
