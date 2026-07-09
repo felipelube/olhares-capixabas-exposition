@@ -1,6 +1,6 @@
 ---
 title: Olhares Capixabas
-period: 01 — 30 de agosto
+period: 01 — 31 de agosto
 tagline: O Espírito Santo através de quem o vive.
 venue: Tribunal de Justiça do Espírito Santo
 address: Rua Desembargador Homero Mafra, 60 — Enseada do Suá, Vitória — ES, 29050-906
