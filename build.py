@@ -41,6 +41,19 @@ def display_title(title):
 
 EXTERNAL = ' target="_blank" rel="noopener"'
 
+# the site's only JavaScript: arrow keys / Escape for the lightbox
+LIGHTBOX_KEYS = """<script>
+addEventListener("keydown", e => {
+  const open = document.querySelector(".lightbox:target");
+  if (!open) return;
+  const boxes = [...document.querySelectorAll(".lightbox")], i = boxes.indexOf(open);
+  if (e.key === "Escape") location.replace(open.querySelector(".shut").hash);
+  else if (e.key === "ArrowRight") location.replace("#" + boxes[(i + 1) % boxes.length].id);
+  else if (e.key === "ArrowLeft") location.replace("#" + boxes[(i - 1 + boxes.length) % boxes.length].id);
+});
+</script>
+"""
+
 
 def links_html(meta, skip=("name", "bio", "title")):
     """Any non-reserved frontmatter key becomes a link; bare emails get mailto:."""
@@ -164,12 +177,23 @@ def build():
                 f"<figcaption>{n:02d}</figcaption></figure>"
                 for n, f in enumerate(photos, 1)
             )
-            gallery += "\n" + "\n".join(
-                f'<a class="lightbox" id="foto-{n:02d}" href="#g-{n:02d}">'
-                f'<img src="{html.escape(f.name)}" alt="Fotografia de {name}"></a>'
+            def thumbs(current):
+                parts = []
+                for m, g in enumerate(photos, 1):
+                    cls = ' class="current"' if m == current else ""
+                    parts.append(f'<a href="#foto-{m:02d}"{cls}>'
+                                 f'<img src="{html.escape(g.name)}" alt="" loading="lazy"></a>')
+                return "".join(parts)
+
+            # overlays live outside .gallery so its nth-child rhythm rules can't touch them
+            overlays = "\n".join(
+                f'<figure class="lightbox" id="foto-{n:02d}">'
+                f'<a class="shut" href="#g-{n:02d}"><img src="{html.escape(f.name)}" alt="Fotografia de {name}"></a>'
+                f"<nav>{thumbs(n)}</nav></figure>"
                 for n, f in enumerate(photos, 1)
             )
         else:
+            overlays = ""
             gallery = f'<p class="label">Fotografias a partir de {opening_label}</p>\n' + "\n".join(
                 f'<figure><div class="placeholder"><span>{n:02d}</span></div></figure>'
                 for n in range(1, len(photos) + 1)
@@ -190,8 +214,9 @@ def build():
 <section class="gallery">
 {gallery}
 </section>
+{overlays}
 </main>
-"""
+{LIGHTBOX_KEYS if started and photos else ""}"""
         (out / "index.html").write_text(
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
