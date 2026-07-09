@@ -62,6 +62,7 @@ h1 em {
 .bar,
 .links,
 .foot,
+.opening,
 figcaption {
   font-size: 0.72rem;
   letter-spacing: 0.22em;
@@ -87,6 +88,22 @@ figcaption {
   font-size: clamp(3.2rem, 13vw, 10rem);
 }
 
+/* pre-opening teaser badge */
+.opening {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-top: 2rem;
+}
+
+.opening .dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: hsl(15 40% 62%);
+  animation: hue-cycle 120s linear infinite;
+}
+
 /* "Capixabas" drifts through the whole palette, one full cycle every 2 min */
 .home h1 em {
   color: hsl(15 40% 62%);
@@ -100,7 +117,8 @@ figcaption {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home h1 em {
+  .home h1 em,
+  .opening .dot {
     animation: none;
   }
 }

@@ -103,6 +103,7 @@ def build():
     # photos are held back until the exposition opens; rebuild on opening day to publish them
     opening = date.fromisoformat(site["start"]) if "start" in site else None
     started = opening is None or date.today() >= opening
+    opening_label = "" if started else f"{opening.day:02d} de {MONTHS[opening.month - 1]}"
 
     shutil.rmtree(DIST, ignore_errors=True)
     DIST.mkdir()
@@ -162,8 +163,7 @@ def build():
                 for n, f in enumerate(photos, 1)
             )
         else:
-            note = f"Fotografias a partir de {opening.day:02d} de {MONTHS[opening.month - 1]}"
-            gallery = f'<p class="label">{note}</p>\n' + "\n".join(
+            gallery = f'<p class="label">Fotografias a partir de {opening_label}</p>\n' + "\n".join(
                 f'<figure><div class="placeholder"><span>{n:02d}</span></div></figure>'
                 for n in range(1, len(photos) + 1)
             )
@@ -202,6 +202,7 @@ def build():
     )
     body = f"""<header class="home">
 <p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
+{f'<p class="opening"><span class="dot"></span>Abertura em {opening_label}</p>' if opening_label else ""}
 <div class="masthead">
 <h1>{display_title(title)}</h1>
 <p class="curator"><span class="label">Curadoria</span>{f'<a href="curadoria/">{html.escape(site.get("curator", ""))}</a>' if (ROOT / "curadoria.md").exists() else html.escape(site.get("curator", ""))}</p>
