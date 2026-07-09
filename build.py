@@ -2,8 +2,11 @@
 """Builds the site into dist/. Usage: python3 build.py"""
 import html
 import shutil
+from datetime import date
 from pathlib import Path
 from urllib.parse import quote
+
+MONTHS = "janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro".split()
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "photographers"
@@ -97,6 +100,9 @@ def build():
     period = site.get("period", "")
     # absolute URLs (canonical, og:image) only work with a real domain in `url:`
     base = site.get("url", "").rstrip("/")
+    # photos are held back until the exposition opens; rebuild on opening day to publish them
+    opening = date.fromisoformat(site["start"]) if "start" in site else None
+    started = opening is None or date.today() >= opening
 
     shutil.rmtree(DIST, ignore_errors=True)
     DIST.mkdir()
@@ -145,16 +151,22 @@ def build():
         out.mkdir()
 
         photos = sorted(f for f in folder.iterdir() if f.suffix.lower() in IMG_EXTS)
-        for f in photos:
-            shutil.copy(f, out / f.name)
-
         name = html.escape(meta["name"])
         links = links_html(meta)
-        gallery = "\n".join(
-            f'<figure><img src="{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy">'
-            f"<figcaption>{n:02d}</figcaption></figure>"
-            for n, f in enumerate(photos, 1)
-        )
+        if started:
+            for f in photos:
+                shutil.copy(f, out / f.name)
+            gallery = "\n".join(
+                f'<figure><img src="{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy">'
+                f"<figcaption>{n:02d}</figcaption></figure>"
+                for n, f in enumerate(photos, 1)
+            )
+        else:
+            note = f"Fotografias a partir de {opening.day:02d} de {MONTHS[opening.month - 1]}"
+            gallery = f'<p class="label">{note}</p>\n' + "\n".join(
+                f'<figure><div class="placeholder"><span>{n:02d}</span></div></figure>'
+                for n in range(1, len(photos) + 1)
+            )
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
@@ -177,7 +189,7 @@ def build():
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
                  canonical=base and f"{base}/{slug}/",
-                 image=base and photos and f"{base}/{slug}/{photos[0].name}" or "",
+                 image=base and started and photos and f"{base}/{slug}/{photos[0].name}" or "",
                  accent=accent),
             encoding="utf-8")
         photographers.append((meta["name"], slug, accent))
@@ -236,7 +248,8 @@ def build():
         (DIST / "robots.txt").write_text(f"Sitemap: {base}/sitemap.xml\n", encoding="utf-8")
 
     assert (DIST / "index.html").exists() and photographers, "empty build"
-    print(f"ok: {len(photographers)} photographer(s) in {DIST}")
+    state = "photos published" if started else f"placeholders until {opening}"
+    print(f"ok: {len(photographers)} photographer(s) in {DIST} — {state}")
 
 
 if __name__ == "__main__":

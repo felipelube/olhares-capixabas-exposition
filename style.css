@@ -333,6 +333,28 @@ figcaption {
   color: var(--accent, var(--muted));
 }
 
+/* pre-opening: framed empty tiles hold the photos' place */
+.gallery .label {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.placeholder {
+  aspect-ratio: 3 / 2;
+  border: 1px solid var(--hairline);
+  display: grid;
+  place-items: center;
+}
+
+.placeholder span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--accent, var(--muted));
+  opacity: 0.6;
+}
+
 @media (max-width: 40rem) {
   .gallery figure:nth-child(3n + 2),
   .gallery figure:nth-child(3n) {
