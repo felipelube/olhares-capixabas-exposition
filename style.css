@@ -71,6 +71,24 @@ figcaption {
   font-size: clamp(3.2rem, 13vw, 10rem);
 }
 
+/* "Capixabas" drifts through the whole palette, one full cycle every 2 min */
+.home h1 em {
+  color: hsl(15 40% 62%);
+  animation: hue-cycle 120s linear infinite;
+}
+
+@keyframes hue-cycle {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home h1 em {
+    animation: none;
+  }
+}
+
 .tagline {
   margin-top: 2.5rem;
   font-family: var(--serif);
