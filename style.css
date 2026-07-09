@@ -35,6 +35,12 @@ h1 {
   letter-spacing: -0.01em;
 }
 
+/* Fraunces WONK axis: eccentric letterforms, display sizes only */
+h1,
+.photographers .name {
+  font-variation-settings: "WONK" 1;
+}
+
 h1 em {
   font-style: italic;
   font-weight: 300;

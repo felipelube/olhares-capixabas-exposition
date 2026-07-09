@@ -12,7 +12,7 @@ ROOT = Path(__file__).parent
 SRC = ROOT / "photographers"
 DIST = ROOT / "dist"
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg"}
-FONT = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap"
+FONT = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,WONK@0,9..144,300..600,0..1;1,9..144,300..600,0..1&display=swap"
 
 
 def parse_md(path):
