@@ -119,7 +119,7 @@ figcaption {
 .photographers .num {
   font-size: 0.72rem;
   letter-spacing: 0.22em;
-  color: var(--muted);
+  color: var(--accent, var(--muted));
 }
 
 .photographers .name {
@@ -133,6 +133,7 @@ figcaption {
 .photographers a:hover .name {
   font-style: italic;
   transform: translateX(0.75rem);
+  color: var(--accent, var(--ink));
 }
 
 .masthead {
@@ -239,6 +240,10 @@ figcaption {
   font-size: clamp(2.8rem, 9vw, 6.5rem);
 }
 
+.artist h1 em {
+  color: var(--accent, inherit);
+}
+
 .artist .bio {
   margin-top: 2rem;
   max-width: 34rem;
@@ -253,7 +258,7 @@ figcaption {
 }
 
 .artist .links a:hover {
-  color: var(--ink);
+  color: var(--accent, var(--ink));
 }
 
 .statement {
@@ -307,6 +312,7 @@ figcaption {
 
 figcaption {
   margin-top: 0.8rem;
+  color: var(--accent, var(--muted));
 }
 
 @media (max-width: 40rem) {

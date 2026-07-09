@@ -42,7 +42,7 @@ The edit loop is: change a file → `python3 build.py` → refresh the browser. 
 
 ## Design
 
-Black editorial theme inspired by gallery/print design: near-black background, warm off-white ink, [Fraunces](https://fonts.google.com/specimen/Fraunces) display serif (the site's only external resource, loaded from Google Fonts with a graceful serif fallback), and tiny uppercase letterspaced labels used as "metadata" throughout. Titles and names get an automatic italic accent on the last word ("Olhares *Capixabas*").
+Black editorial theme inspired by gallery/print design: near-black background, warm off-white ink, [Fraunces](https://fonts.google.com/specimen/Fraunces) display serif (the site's only external resource, loaded from Google Fonts with a graceful serif fallback), and tiny uppercase letterspaced labels used as "metadata" throughout. Titles and names get an automatic italic accent on the last word ("Olhares *Capixabas*"). Each photographer also gets an accent color (12 evenly-spaced hues, assigned by folder order in `build.py`) used sparingly — roster number, hover, italic surname, figure captions — and the homepage kicker rule is a thin strip of all twelve, one band per voice in the show.
 
 The homepage is a poster: oversized title with the curator credit at its baseline, a Quando/Onde info band (address linked to Google Maps), and a numbered photographer roster with hairline rules. Photographer pages set the statement lede large, then run the gallery in a repeating asymmetric rhythm — full-width, large-left, smaller-right-offset — with numbered captions. Portrait images are capped at 85vh. There is **no JavaScript**; all interaction is CSS. Everything collapses to a single column on narrow screens.
 

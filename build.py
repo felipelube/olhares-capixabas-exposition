@@ -10,6 +10,8 @@ SRC = ROOT / "photographers"
 DIST = ROOT / "dist"
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg"}
 FONT = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap"
+# one accent hue per photographer — even hue steps, same sat/light so they sit quietly on black
+PALETTE = [f"hsl({h} 40% 62%)" for h in range(15, 360, 30)]
 
 
 def parse_md(path):
@@ -56,7 +58,7 @@ def excerpt(text, limit=160):
     return first if len(first) <= limit else first[:limit].rsplit(" ", 1)[0] + "…"
 
 
-def page(title, body, depth=0, desc="", site_name="", canonical="", image=""):
+def page(title, body, depth=0, desc="", site_name="", canonical="", image="", accent=""):
     css = "../" * depth + "style.css"
     e = html.escape
     seo = f'<meta name="description" content="{e(desc)}">\n' if desc else ""
@@ -84,7 +86,7 @@ def page(title, body, depth=0, desc="", site_name="", canonical="", image=""):
 <link rel="stylesheet" href="{FONT}">
 <link rel="stylesheet" href="{css}">
 </head>
-<body>
+<body{f' style="--accent: {accent}"' if accent else ""}>
 {body}
 </body>
 </html>
@@ -134,9 +136,10 @@ def build():
         pages.append((page_title, md.stem))
 
     photographers = []
-    for folder in sorted(p for p in SRC.iterdir() if p.is_dir()):
+    for i, folder in enumerate(sorted(p for p in SRC.iterdir() if p.is_dir())):
         meta, statement = parse_md(folder / "info.md")
         slug = folder.name
+        accent = PALETTE[i % len(PALETTE)]
         out = DIST / slug
         out.mkdir()
 
@@ -173,18 +176,23 @@ def build():
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
                  canonical=base and f"{base}/{slug}/",
-                 image=base and photos and f"{base}/{slug}/{photos[0].name}" or ""),
+                 image=base and photos and f"{base}/{slug}/{photos[0].name}" or "",
+                 accent=accent),
             encoding="utf-8")
-        photographers.append((meta["name"], slug))
+        photographers.append((meta["name"], slug, accent))
 
     photographers.sort(key=lambda p: p[0].lower())
     items = "\n".join(
-        f'<li><a href="{html.escape(slug)}/"><span class="num">{n:02d}</span>'
+        f'<li style="--accent: {accent}"><a href="{html.escape(slug)}/"><span class="num">{n:02d}</span>'
         f"<span class=\"name\">{html.escape(name)}</span></a></li>"
-        for n, (name, slug) in enumerate(photographers, 1)
+        for n, (name, slug, accent) in enumerate(photographers, 1)
+    )
+    strip = ", ".join(
+        f"{c} {i * 100 / len(PALETTE):.1f}% {(i + 1) * 100 / len(PALETTE):.1f}%"
+        for i, c in enumerate(PALETTE)
     )
     body = f"""<header class="home">
-<p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
+<p class="kicker" style="border-image: linear-gradient(90deg, {strip}) 1"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
 <div class="masthead">
 <h1>{display_title(title)}</h1>
 <p class="curator"><span class="label">Curadoria</span>{f'<a href="curadoria/">{html.escape(site.get("curator", ""))}</a>' if (ROOT / "curadoria.md").exists() else html.escape(site.get("curator", ""))}</p>
@@ -222,7 +230,7 @@ def build():
         encoding="utf-8")
 
     if base:
-        urls = [f"{base}/"] + [f"{base}/{slug}/" for _, slug in pages + photographers]
+        urls = [f"{base}/"] + [f"{base}/{p[1]}/" for p in pages + photographers]
         (DIST / "sitemap.xml").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
