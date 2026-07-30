@@ -1,16 +1,20 @@
 ---
 title: Curadoria
 name: Profa. Katia Ludolf
-bio: Professora, pesquisadora e curadora independente. Doutora em Artes Visuais, dedica-se à fotografia brasileira contemporânea e à história visual do Espírito Santo.
-email: katia.ludolf@exemplo.com
-lattes: https://lattes.cnpq.br/0000000000000000
-instagram: https://instagram.com/katialudolf
+bio: Jornalista, fotógrafa e professora de fotografia, curadora da mostra.
+instagram: https://instagram.com/professorakatialudolf
 ---
 
-Reunir seis fotógrafos sob um mesmo título é sempre uma aposta: a de que os olhares, postos lado a lado, revelem algo que nenhum deles alcança sozinho.
+O Espírito Santo sob seis olhares de fotógrafos talentosos.
 
-O convite feito a cada artista foi deliberadamente aberto — fotografar o Espírito Santo de dentro da própria prática, sem tema imposto, sem lista de belezas obrigatórias. O que voltou foi um estado inteiro em corte transversal: o porto e o mangue, o Congo e o concreto modernista, a serra de neblina e a juventude das periferias. Nenhuma dessas séries se propõe a representar o território por inteiro; é justamente na soma das parcialidades que a mostra encontra o seu argumento.
+A exposição revela infinitas formas de ver o território, reconhecendo o extraordinário no comum do cotidiano. Cada artista assina um trabalho autoral: paisagens que guardam história, lugares que mudam mas deixam marcas, retratos, cenas de rua, o sagrado e trabalhadores.
 
-Organizei o percurso expositivo em três movimentos — trabalho, travessia e pertencimento — que se repetem nas paredes do hall como refrões. O visitante não precisa segui-los: as fotografias sustentam qualquer ordem de leitura, e o catálogo registra a sequência apenas como uma das possíveis.
+A mostra fotográfica coletiva é um convite para olhar o que acontece e passa despercebido pela maioria das pessoas na correria da vida.
 
-Agradeço aos seis artistas pela confiança com que abriram seus arquivos e suas rotinas, e ao Tribunal de Justiça do Espírito Santo por receber, no seu espaço mais público, a imagem que o estado faz de si mesmo.
+"Olhares Capixabas" não quer definir o que é ser do Espírito Santo, quer mostrar que são muitas formas de pertencer.
+
+Uma honra ser a curadora, gratidão!
+
+Katia Ludolf é jornalista, fotógrafa e professora de fotografia. Formada em Comunicação Social com ênfase em Jornalismo pela FMU/FIAM (São Paulo) e pós-graduada em Psicopedagogia pela UNICIDADE (Vitória, ES), atuou no fotojornalismo e na fotografia de moda e publicitária, e atualmente trabalha na área acadêmica.
+
+Deu aulas de iniciação fotográfica, fotojornalismo e fotografia publicitária no SENAC de Vitória, na Bucher & Bucher, na FABAVI, na JSimões, na UNIVILA, no Centro Universitário São Camilo e na Estácio, além de oficinas de fotografia de moda na UVV e na SAVARIS.

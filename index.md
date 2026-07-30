@@ -9,4 +9,6 @@ curator: Profa. Katia Ludolf
 url: https://mostraolharescapixabas.art.br
 ---
 
-Texto de apresentação da exposição (opcional). Cada parágrafo separado por linha em branco vira um parágrafo na página. Apague este texto se não quiser introdução.
+A exposição revela infinitas formas de ver o território, reconhecendo o extraordinário no comum do cotidiano. Cada artista assina um trabalho autoral: paisagens que guardam história, lugares que mudam mas deixam marcas, retratos, cenas de rua, o sagrado e trabalhadores.
+
+A mostra fotográfica coletiva é um convite para olhar o que acontece e passa despercebido pela maioria das pessoas na correria da vida.
