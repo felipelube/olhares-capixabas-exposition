@@ -85,7 +85,7 @@ def main(slug):
     bar = f'<p class="bar"><span>{e(site["period"])}</span><span>{e(site["venue"])}</span></p>'
 
     pf = sorted(f for f in (folder / "portfolio").glob("*") if f.suffix.lower() in IMG_EXTS)
-    photos = [pf[0], pf[len(pf) // 2], pf[-1]] if len(pf) >= 3 else pf
+    photos = pf[:6]  # 10-slide cap: 4 text slides + up to 6 photos
 
     paras = [p.strip() for p in statement.split("\n\n") if p.strip()]
     quoted = re.search(r'"([^"]+)"', statement)
@@ -109,31 +109,26 @@ def main(slug):
                        if year else f'<div><p>{e(p)}</p></div>')
         return "".join(out)
 
-    slides = [
-        f'<div class="frame">{kicker}<div class="grow"><h1>{h1}</h1>'
-        f'<p class="bio">{e(meta.get("bio", ""))}</p></div>{bar}</div>',
+    cover = (f'<div class="frame">{kicker}<div class="grow"><h1>{h1}</h1>'
+             f'<p class="bio">{e(meta.get("bio", ""))}</p></div>{bar}</div>')
+    quote_slide = (f'<div class="frame">{kicker}<div class="grow">'
+                   f'<p class="quote">“{e(quote)}”</p>'
+                   f'<p class="label" style="margin-top:48px">{e(name)}</p></div>{bar}</div>')
+    sobre = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:40px">'
+             f'Sobre {e(name)}</p><div class="milestones">{rows(milestones)}</div></div>{bar}</div>')
+    invite = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:32px">'
+              f'Visite a mostra</p><h1 style="font-size:104px">{title_h1}</h1>'
+              f'<p class="tagline">{e(site.get("tagline", ""))}</p>'
+              f'<div class="details"><div><p class="label">Quando</p><p>{e(site["period"])}</p></div>'
+              f'<div><p class="label">Onde</p><p>{e(site["venue"])}</p></div></div>'
+              f'<p class="label" style="margin-top:72px"><span class="url">'
+              f'{e(site["url"].removeprefix("https://"))}</span></p></div>'
+              f'<p class="bar"><span>Curadoria</span><span>{e(site.get("curator", ""))}</span></p></div>')
 
-        photo_slide(photos[0], 1),
-
-        f'<div class="frame">{kicker}<div class="grow">'
-        f'<p class="quote">“{e(quote)}”</p><p class="label" style="margin-top:48px">{e(name)}</p></div>{bar}</div>',
-
-        photo_slide(photos[1], 2),
-
-        f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:40px">'
-        f'Sobre {e(name)}</p><div class="milestones">{rows(milestones)}</div></div>{bar}</div>',
-
-        photo_slide(photos[2], 3),
-
-        f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:32px">'
-        f'Visite a mostra</p><h1 style="font-size:104px">{title_h1}</h1>'
-        f'<p class="tagline">{e(site.get("tagline", ""))}</p>'
-        f'<div class="details"><div><p class="label">Quando</p><p>{e(site["period"])}</p></div>'
-        f'<div><p class="label">Onde</p><p>{e(site["venue"])}</p></div></div>'
-        f'<p class="label" style="margin-top:72px"><span class="url">'
-        f'{e(site["url"].removeprefix("https://"))}</span></p></div>'
-        f'<p class="bar"><span>Curadoria</span><span>{e(site.get("curator", ""))}</span></p></div>',
-    ]
+    # photo-first: text slides breathe between pairs of photos, 10 slides max
+    shots = [photo_slide(f, n) for n, f in enumerate(photos, 1)]
+    slides = [cover] + shots[:2] + [quote_slide] + shots[2:4] + (
+        [sobre] if milestones else []) + shots[4:] + [invite]
 
     out = ROOT / "promo" / slug
     out.mkdir(parents=True, exist_ok=True)
