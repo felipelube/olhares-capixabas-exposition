@@ -1,6 +1,6 @@
 ---
 title: Curadoria
-name: Profa. Katia Ludolf
+name: Profa. Kátia Ludolf
 bio: Jornalista, fotógrafa e professora de fotografia, curadora da mostra.
 instagram: https://instagram.com/professorakatialudolf
 ---
@@ -15,6 +15,6 @@ A mostra fotográfica coletiva é um convite para olhar o que acontece e passa d
 
 Uma honra ser a curadora, gratidão!
 
-Katia Ludolf é jornalista, fotógrafa e professora de fotografia. Formada em Comunicação Social com ênfase em Jornalismo pela FMU/FIAM (São Paulo) e pós-graduada em Psicopedagogia pela UNICIDADE (Vitória, ES), atuou no fotojornalismo e na fotografia de moda e publicitária, e atualmente trabalha na área acadêmica.
+Kátia Ludolf é jornalista, fotógrafa e professora de fotografia. Formada em Comunicação Social com ênfase em Jornalismo pela FMU/FIAM (São Paulo) e pós-graduada em Psicopedagogia pela UNICIDADE (Vitória, ES), atuou no fotojornalismo e na fotografia de moda e publicitária, e atualmente trabalha na área acadêmica.
 
 Deu aulas de iniciação fotográfica, fotojornalismo e fotografia publicitária no SENAC de Vitória, na Bucher & Bucher, na FABAVI, na JSimões, na UNIVILA, no Centro Universitário São Camilo e na Estácio, além de oficinas de fotografia de moda na UVV e na SAVARIS.

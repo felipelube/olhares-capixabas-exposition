@@ -5,7 +5,7 @@ start: 2026-09-01
 tagline: O Espírito Santo através de quem o vive.
 venue: Tribunal de Justiça do Espírito Santo
 address: Rua Desembargador Homero Mafra, 60 — Enseada do Suá, Vitória — ES, 29050-906
-curator: Profa. Katia Ludolf
+curator: Profa. Kátia Ludolf
 url: https://mostraolharescapixabas.art.br
 ---
 
