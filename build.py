@@ -66,6 +66,25 @@ def links_html(meta, skip=("name", "bio", "title")):
     )
 
 
+def lightboxes(photos, name, fig, box, src=""):
+    """Full-screen :target overlays with a per-set thumbnail navigator."""
+    def thumbs(current):
+        parts = []
+        for m, p in enumerate(photos, 1):
+            cls = ' class="current"' if m == current else ""
+            parts.append(f'<a href="#{box}-{m:02d}"{cls}>'
+                         f'<img src="{src}{html.escape(p.name)}" alt="" loading="lazy"></a>')
+        return "".join(parts)
+
+    return "\n".join(
+        f'<figure class="lightbox" id="{box}-{n:02d}">'
+        f'<a class="close" href="#{fig}-{n:02d}" aria-label="Fechar">×</a>'
+        f'<a class="shut" href="#{fig}-{n:02d}"><img src="{src}{html.escape(p.name)}" alt="Fotografia de {name}"></a>'
+        f"<nav>{thumbs(n)}</nav></figure>"
+        for n, p in enumerate(photos, 1)
+    )
+
+
 def excerpt(text, limit=160):
     """First paragraph as a single plain-text line, truncated for meta description."""
     first = " ".join(text.split("\n\n")[0].split())
@@ -177,22 +196,8 @@ def build():
                 f"<figcaption>{n:02d}</figcaption></figure>"
                 for n, f in enumerate(photos, 1)
             )
-            def thumbs(current):
-                parts = []
-                for m, g in enumerate(photos, 1):
-                    cls = ' class="current"' if m == current else ""
-                    parts.append(f'<a href="#foto-{m:02d}"{cls}>'
-                                 f'<img src="{html.escape(g.name)}" alt="" loading="lazy"></a>')
-                return "".join(parts)
-
             # overlays live outside .gallery so its nth-child rhythm rules can't touch them
-            overlays = "\n".join(
-                f'<figure class="lightbox" id="foto-{n:02d}">'
-                f'<a class="close" href="#g-{n:02d}" aria-label="Fechar">×</a>'
-                f'<a class="shut" href="#g-{n:02d}"><img src="{html.escape(f.name)}" alt="Fotografia de {name}"></a>'
-                f"<nav>{thumbs(n)}</nav></figure>"
-                for n, f in enumerate(photos, 1)
-            )
+            overlays = lightboxes(photos, name, "g", "foto")
         else:
             overlays = ""
             gallery = f'<p class="label">Fotografias a partir de {opening_label}</p>\n' + "\n".join(
@@ -205,6 +210,22 @@ def build():
         if bio_md.exists():
             about = (f'\n<section class="about">\n<p class="label">Sobre {name}</p>\n'
                      f"{paragraphs(bio_md.read_text(encoding='utf-8'))}\n</section>")
+        # optional mini portfolio (portfolio/ subfolder) — always published; the embargo covers only the series
+        pf = sorted((folder / "portfolio").glob("*")) if (folder / "portfolio").is_dir() else []
+        pf = [f for f in pf if f.suffix.lower() in IMG_EXTS]
+        portfolio = ""
+        if pf:
+            (out / "portfolio").mkdir()
+            for f in pf:
+                shutil.copy(f, out / "portfolio" / f.name)
+            tiles = "\n".join(
+                f'<figure id="pf-{n:02d}"><a href="#pfoto-{n:02d}">'
+                f'<img src="portfolio/{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy"></a></figure>'
+                for n, f in enumerate(pf, 1)
+            )
+            portfolio = (f'\n<section class="portfolio">\n<p class="label">Portfólio</p>\n'
+                         f'<div class="grid">\n{tiles}\n</div>\n</section>')
+            overlays += "\n" + lightboxes(pf, name, "pf", "pfoto", "portfolio/")
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
@@ -220,10 +241,10 @@ def build():
 </div>
 <section class="gallery">
 {gallery}
-</section>{about}
+</section>{about}{portfolio}
 {overlays}
 </main>
-{LIGHTBOX_KEYS if started and photos else ""}"""
+{LIGHTBOX_KEYS if (started and photos) or pf else ""}"""
         (out / "index.html").write_text(
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,

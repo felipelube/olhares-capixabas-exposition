@@ -464,6 +464,33 @@ html:has(.lightbox:target) {
   margin-top: 1em;
 }
 
+/* mini portfolio: small always-published grid after the bio */
+.portfolio {
+  margin-top: 4rem;
+  max-width: 34rem;
+}
+
+.portfolio .label {
+  margin: 0 0 1.5rem;
+}
+
+.portfolio .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: 0.75rem;
+}
+
+.portfolio a {
+  cursor: zoom-in;
+}
+
+.portfolio img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
 /* pre-opening: framed empty tiles hold the photos' place */
 .gallery .label {
   grid-column: 1 / -1;

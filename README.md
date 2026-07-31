@@ -31,6 +31,8 @@ Photos live in the same folder (`.jpg`, `.png`, `.webp`, `.gif`, `.avif`, `.svg`
 
 An optional `bio.md` in the same folder (plain paragraphs, no frontmatter) renders as a long-form "Sobre" section after the gallery — use it for trajectory, exhibitions and awards; the frontmatter `bio` stays as the one-line introduction under the name.
 
+An optional `portfolio/` subfolder of images renders as a small "Portfólio" thumbnail grid after the bio — a mini portfolio beside the exposition series. Each thumbnail opens in the same lightbox as the gallery. Portfolio photos are **always published**, even before the opening: the `start` embargo covers only the series.
+
 **Standalone pages.** Any `.md` in the project root (besides `index.md`/`README.md`) becomes `/<filename>/`, with `title` frontmatter, and is linked automatically from the homepage footer. `agradecimentos.md` (acknowledgements) is the existing example.
 
 **Photographer names are real; their texts and photos are pending** — each page carries "em breve" placeholders until the artists send their material.
