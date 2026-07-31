@@ -44,12 +44,9 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 .year {{ font-family: var(--serif); font-style: italic; font-size: 44px; color: var(--accent);
         flex: 0 0 130px; font-variation-settings: "WONK" 1; }}
 .milestones p {{ font-size: 27px; color: var(--muted); line-height: 1.55; }}
-.photo {{ position: absolute; inset: 0; }}
-.photo img {{ width: 100%; height: 100%; object-fit: cover; display: block; }}
-.photo::after {{ content: ""; position: absolute; inset: 0;
-                background: linear-gradient(transparent 75%, rgba(0 0 0 / 0.5)); }}
-.caption {{ position: absolute; left: 80px; bottom: 64px; color: var(--ink);
-           text-shadow: 0 1px 12px rgba(0 0 0 / 0.8); }}
+.photo {{ position: absolute; inset: 0; padding: 80px 80px 150px; display: grid; place-items: center; }}
+.photo img {{ max-width: 100%; max-height: 100%; object-fit: contain; display: block; }}
+.caption {{ position: absolute; left: 80px; bottom: 64px; color: var(--ink); }}
 .caption em {{ font-family: var(--serif); font-style: italic; color: var(--accent); margin-right: 24px; }}
 .details {{ display: flex; gap: 96px; margin-top: 72px; }}
 .details .label {{ margin-bottom: 8px; }}
