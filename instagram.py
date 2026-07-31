@@ -44,6 +44,10 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 .year {{ font-family: var(--serif); font-style: italic; font-size: 44px; color: var(--accent);
         flex: 0 0 130px; font-variation-settings: "WONK" 1; }}
 .milestones p {{ font-size: 27px; color: var(--muted); line-height: 1.55; }}
+.milestones .rname {{ font-family: var(--serif); font-weight: 340; font-size: 54px; color: var(--ink);
+                     line-height: 1.15; font-variation-settings: "WONK" 1; }}
+.roster div {{ padding: 20px 0; }}
+.roster .rname {{ font-size: 44px; }}
 .photo {{ position: absolute; inset: 0; padding: 80px 80px 150px; display: grid; place-items: center; }}
 .photo img {{ max-width: 100%; max-height: 100%; object-fit: contain; display: block; }}
 .caption {{ position: absolute; left: 80px; bottom: 64px; color: var(--ink); }}
@@ -66,8 +70,9 @@ def slide(out, name, body, accent):
 
 
 def main(slug):
+    curator = slug == "curadoria"
     folder = SRC / slug
-    meta, statement = parse_md(folder / "info.md")
+    meta, statement = parse_md((ROOT / "curadoria.md") if curator else folder / "info.md")
     site, _ = parse_md(ROOT / "index.md")
     name = meta["name"]
     e = html.escape
@@ -78,13 +83,13 @@ def main(slug):
     title_h1 = f"{thead} <em>{tlast}</em>"
 
     folders = sorted(p.name for p in SRC.iterdir() if p.is_dir())
-    accent = f"hsl({15 + folders.index(slug) * 360 // len(folders)} 40% 62%)"
-    num = f"{sorted(folders).index(slug) + 1:02d}"
+    accent = ("hsl(15 40% 62%)" if curator  # base hue, same as the homepage title accent
+              else f"hsl({15 + folders.index(slug) * 360 // len(folders)} 40% 62%)")
 
     kicker = f'<p class="kicker"><span>Exposição fotográfica</span><span>{title}</span></p>'
     bar = f'<p class="bar"><span>{e(site["period"])}</span><span>{e(site["venue"])}</span></p>'
 
-    pf = sorted(f for f in (folder / "portfolio").glob("*") if f.suffix.lower() in IMG_EXTS)
+    pf = [] if curator else sorted(f for f in (folder / "portfolio").glob("*") if f.suffix.lower() in IMG_EXTS)
     photos = pf[:6]  # 10-slide cap: 4 text slides + up to 6 photos
 
     paras = [p.strip() for p in statement.split("\n\n") if p.strip()]
@@ -109,13 +114,22 @@ def main(slug):
                        if year else f'<div><p>{e(p)}</p></div>')
         return "".join(out)
 
-    cover = (f'<div class="frame">{kicker}<div class="grow"><h1>{h1}</h1>'
+    def quoted_slide(text, sub):
+        return (f'<div class="frame">{kicker}<div class="grow">'
+                f'<p class="quote">“{e(text)}”</p>'
+                f'<p class="label" style="margin-top:48px">{e(sub)}</p></div>{bar}</div>')
+
+    def rows_slide(label, items):
+        return (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:40px">'
+                f'{label}</p><div class="milestones">{rows(items)}</div></div>{bar}</div>')
+
+    role = '<p class="label" style="margin-bottom:32px">Curadoria</p>' if curator else ""
+    h1_size = ' style="font-size:96px"' if curator else ""
+    cover = (f'<div class="frame">{kicker}<div class="grow">{role}'
+             f'<h1{h1_size}>{h1}</h1>'
              f'<p class="bio">{e(meta.get("bio", ""))}</p></div>{bar}</div>')
-    quote_slide = (f'<div class="frame">{kicker}<div class="grow">'
-                   f'<p class="quote">“{e(quote)}”</p>'
-                   f'<p class="label" style="margin-top:48px">{e(name)}</p></div>{bar}</div>')
-    sobre = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:40px">'
-             f'Sobre {e(name)}</p><div class="milestones">{rows(milestones)}</div></div>{bar}</div>')
+    quote_slide = quoted_slide(quote, name)
+    sobre = rows_slide(f"Sobre {e(name)}", milestones)
     invite = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:32px">'
               f'Visite a mostra</p><h1 style="font-size:104px">{title_h1}</h1>'
               f'<p class="tagline">{e(site.get("tagline", ""))}</p>'
@@ -125,10 +139,28 @@ def main(slug):
               f'{e(site["url"].removeprefix("https://"))}</span></p></div>'
               f'<p class="bar"><span>Curadoria</span><span>{e(site.get("curator", ""))}</span></p></div>')
 
-    # photo-first: text slides breathe between pairs of photos, 10 slides max
-    shots = [photo_slide(f, n) for n, f in enumerate(photos, 1)]
-    slides = [cover] + shots[:2] + [quote_slide] + shots[2:4] + (
-        [sobre] if milestones else []) + shots[4:] + [invite]
+    if curator:
+        # curadoria.md body: lede, two exposition paragraphs, pull quote, thanks, two bio paragraphs
+        lede, mostra, pull, thanks, bio_paras = paras[0], paras[1:3], paras[3], paras[4], paras[5:]
+        roster = "".join(
+            f'<div><span class="year" style="color:hsl({15 + i * 360 // len(folders)} 40% 62%); font-size:34px">'
+            f'{i + 1:02d}</span><p class="rname">{e(parse_md(SRC / f / "info.md")[0]["name"])}</p></div>'
+            for i, f in enumerate(folders))
+        slides = [
+            cover,
+            quoted_slide(lede, name),
+            rows_slide("A mostra", mostra),
+            quoted_slide(pull.replace('"', ""), thanks),
+            rows_slide(f"Sobre {e(name)}", bio_paras),
+            f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:24px">'
+            f'{len(folders)} fotógrafos</p><div class="milestones roster">{roster}</div></div>{bar}</div>',
+            invite,
+        ]
+    else:
+        # photo-first: text slides breathe between pairs of photos, 10 slides max
+        shots = [photo_slide(f, n) for n, f in enumerate(photos, 1)]
+        slides = [cover] + shots[:2] + [quote_slide] + shots[2:4] + (
+            [sobre] if milestones else []) + shots[4:] + [invite]
 
     out = ROOT / "promo" / slug
     out.mkdir(parents=True, exist_ok=True)
