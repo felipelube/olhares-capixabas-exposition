@@ -1,7 +1,7 @@
 ---
 name: Jazan Alves
 bio: Fotografa o cotidiano, com a câmera ou o celular. Foca em arte popular, manifestações culturais e religiosas, e fotografia de rua.
-instagram: https://instagram.com/jazanalves
+instagram: https://instagram.com/jazan.alves
 ---
 
 Esta série fotográfica, intitulada Água e Fogo no Sagrado, reúne imagens em homenagem a Iemanjá, capturadas na Praia de Camburi. A proposta é registrar um processo de consagração e devoção, evidenciando a relação entre o sagrado e a religiosidade.
