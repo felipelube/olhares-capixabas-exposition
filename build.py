@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Builds the site into dist/. Usage: python3 build.py"""
 import html
+import json
 import shutil
 from datetime import date
 from pathlib import Path
@@ -266,6 +267,27 @@ def build():
         f"<span class=\"name\">{html.escape(name)}</span></a></li>"
         for n, (name, slug, accent) in enumerate(photographers, 1)
     )
+    # schema.org event data for Google rich results (dates + venue in search)
+    ldjson = ""
+    if base and opening:
+        event = {
+            "@context": "https://schema.org",
+            "@type": "ExhibitionEvent",
+            "name": title,
+            "description": site.get("tagline", ""),
+            "startDate": site["start"],
+            **({"endDate": site["end"]} if "end" in site else {}),
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "isAccessibleForFree": True,
+            "url": f"{base}/",
+            **({"image": og} if og else {}),
+            "location": {"@type": "Place", "name": site.get("venue", ""),
+                         "address": site.get("address", "")},
+            "organizer": {"@type": "Person", "name": site.get("curator", "")},
+        }
+        ldjson = ('<script type="application/ld+json">'
+                  f"{json.dumps(event, ensure_ascii=False)}</script>\n")
     body = f"""<header class="home">
 <p class="kicker"><span>Exposição fotográfica</span><span>{html.escape(title)}</span></p>
 {f'<p class="opening"><span class="dot"></span>Abertura em {opening_label}</p>' if opening_label else ""}
@@ -295,7 +317,7 @@ def build():
 {items}
 </ol>
 </main>
-<footer class="foot">
+{ldjson}<footer class="foot">
 <span>{" · ".join(f'<a href="{html.escape(slug)}/">{html.escape(t)}</a>' for t, slug in pages)}</span>
 <span>webdesign by <a href="https://www.linkedin.com/in/felipelube"{EXTERNAL}>Felipe Lube</a></span>
 </footer>
