@@ -311,6 +311,22 @@ def build():
             img_url, img_file = f"{base}/{slug}/portfolio/{pf[0].name}", pf[0]
         else:
             img_url, img_file = og, (ROOT / "og.jpg") if og else None
+        # schema.org Person for the artist (links profiles via sameAs)
+        person = ""
+        if base:
+            data = {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": raw_name,
+                "url": f"{base}/{slug}/",
+                **({"description": meta["bio"]} if "bio" in meta else {}),
+                **({"image": img_url} if img_url else {}),
+                **({"sameAs": links_urls} if (links_urls := [
+                    v for k, v in meta.items()
+                    if k not in ("name", "bio", "title") and v.startswith("http")]) else {}),
+            }
+            person = ('<script type="application/ld+json">'
+                      f"{json.dumps(data, ensure_ascii=False)}</script>\n")
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
@@ -329,7 +345,7 @@ def build():
 </section>{about}{portfolio}
 {overlays}
 </main>
-{LIGHTBOX_KEYS if (started and photos) or pf else ""}"""
+{person}{LIGHTBOX_KEYS if (started and photos) or pf else ""}"""
         (out / "index.html").write_text(
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
