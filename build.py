@@ -115,6 +115,8 @@ def page(title, body, depth=0, desc="", site_name="", canonical="", image="", ac
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
+<link rel="icon" href="{"../" * depth}icon.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="{"../" * depth}apple-touch-icon.png">
 {seo}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONT}">
@@ -141,6 +143,9 @@ def build():
     shutil.rmtree(DIST, ignore_errors=True)
     DIST.mkdir()
     shutil.copy(ROOT / "style.css", DIST / "style.css")
+    for icon in ("icon.png", "apple-touch-icon.png"):
+        if (ROOT / icon).exists():
+            shutil.copy(ROOT / icon, DIST / icon)
 
     # site-wide social-share card (og.jpg, 1200x630) — fallback og:image for every page
     og = base and (ROOT / "og.jpg").exists() and f"{base}/og.jpg" or ""
