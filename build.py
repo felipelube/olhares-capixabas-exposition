@@ -70,11 +70,11 @@ def links_html(meta, skip=("name", "bio", "title")):
 
 
 @functools.lru_cache(maxsize=None)
-def dim(path):
-    """width/height attributes from JPEG/PNG headers (stdlib) — reserves layout, kills CLS."""
+def img_wh(path):
+    """Intrinsic (width, height) from JPEG/PNG headers, stdlib only; None otherwise."""
     data = path.read_bytes()
     if data[:8] == b"\x89PNG\r\n\x1a\n":
-        return f' width="{int.from_bytes(data[16:20])}" height="{int.from_bytes(data[20:24])}"'
+        return int.from_bytes(data[16:20]), int.from_bytes(data[20:24])
     if data[:2] == b"\xff\xd8":  # JPEG: walk segments to the SOF frame header
         i = 2
         while i + 9 < len(data):
@@ -85,10 +85,15 @@ def dim(path):
                 i += 1
                 continue
             if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
-                return (f' width="{int.from_bytes(data[i + 7:i + 9])}"'
-                        f' height="{int.from_bytes(data[i + 5:i + 7])}"')
+                return int.from_bytes(data[i + 7:i + 9]), int.from_bytes(data[i + 5:i + 7])
             i += 2 + int.from_bytes(data[i + 2:i + 4])
-    return ""
+    return None
+
+
+def dim(path):
+    """width/height img attributes — reserves layout, kills CLS."""
+    wh = img_wh(path)
+    return f' width="{wh[0]}" height="{wh[1]}"' if wh else ""
 
 
 # ponytail: slugs drop accents; restore them for the handful of words in use
@@ -134,7 +139,7 @@ def excerpt(text, limit=160):
     return first if len(first) <= limit else first[:limit].rsplit(" ", 1)[0] + "…"
 
 
-def page(title, body, depth=0, desc="", site_name="", canonical="", image="", accent=""):
+def page(title, body, depth=0, desc="", site_name="", canonical="", image="", image_file=None, accent=""):
     css = "../" * depth + "style.css"
     e = html.escape
     seo = f'<meta name="description" content="{e(desc)}">\n' if desc else ""
@@ -150,6 +155,9 @@ def page(title, body, depth=0, desc="", site_name="", canonical="", image="", ac
         seo += f'<meta property="og:url" content="{e(canonical)}">\n'
     if image:
         seo += f'<meta property="og:image" content="{e(image)}">\n'
+        if image_file and (wh := img_wh(image_file)):
+            seo += (f'<meta property="og:image:width" content="{wh[0]}">\n'
+                    f'<meta property="og:image:height" content="{wh[1]}">\n')
     seo += f'<meta name="twitter:card" content="{"summary_large_image" if image else "summary"}">'
     return f"""<!doctype html>
 <html lang="pt-BR">
@@ -221,7 +229,8 @@ def build():
 """
         (out / "index.html").write_text(
             page(f"{page_title} — {title}", body, depth=1, desc=excerpt(text),
-                 site_name=title, canonical=base and f"{base}/{md.stem}/", image=og),
+                 site_name=title, canonical=base and f"{base}/{md.stem}/", image=og,
+                 image_file=(ROOT / "og.jpg") if og else None),
             encoding="utf-8")
         pages.append((page_title, md.stem))
 
@@ -292,6 +301,14 @@ def build():
             portfolio = (f'\n<section class="portfolio">\n<p class="label">Portfólio</p>\n'
                          f'<div class="grid">\n{tiles}\n</div>\n</section>')
             overlays += "\n" + lightboxes(pf, raw_name, "pf", "pfoto", "portfolio/", thumbs=thumbs)
+        # share image: first real series photo, else first portfolio photo, else site card
+        share = next((f for f in photos if f.suffix.lower() != ".svg"), None) if started else None
+        if base and share:
+            img_url, img_file = f"{base}/{slug}/{share.name}", share
+        elif base and pf:
+            img_url, img_file = f"{base}/{slug}/portfolio/{pf[0].name}", pf[0]
+        else:
+            img_url, img_file = og, (ROOT / "og.jpg") if og else None
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
@@ -315,8 +332,7 @@ def build():
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
                  canonical=base and f"{base}/{slug}/",
-                 image=(base and started and (share := next((f for f in photos if f.suffix.lower() != ".svg"), None)) and f"{base}/{slug}/{share.name}")
-                 or (base and pf and f"{base}/{slug}/portfolio/{pf[0].name}") or og,
+                 image=img_url, image_file=img_file,
                  accent=accent),
             encoding="utf-8")
         photographers.append((meta["name"], slug, accent))
@@ -384,7 +400,8 @@ def build():
 """
     (DIST / "index.html").write_text(
         page(title, body, desc=site.get("tagline", "") or excerpt(intro),
-             site_name=title, canonical=base and f"{base}/", image=og),
+             site_name=title, canonical=base and f"{base}/", image=og,
+             image_file=(ROOT / "og.jpg") if og else None),
         encoding="utf-8")
 
     if base:
