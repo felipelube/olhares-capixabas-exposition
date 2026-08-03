@@ -1,0 +1,5 @@
+Janete Diniz é cientista social, mestre em Políticas Sociais e fotógrafa documental. Seu interesse pela fotografia surgiu durante a graduação em Ciências Sociais, ao cursar a disciplina optativa de Antropologia Visual na UFES. Posteriormente, aprofundou a sua formação por meio de cursos de fotografia de curta duração.
+
+Sua produção fotográfica está voltada para a documentação de territórios, modos de vida e manifestações culturais. Como fotógrafa, integrou as equipes de produção dos livros Conexões Quilombola (2025) e do Atlas das Mulheres do Espírito Santo (2026), este último resultado de uma ampla pesquisa que reuniu registros de mulheres de diferentes segmentos sociais e culturais do estado — e que gerou também a exposição fotográfica São Elas: Vozes e Rostos do Atlas das Mulheres do Espírito Santo, mostra itinerante que percorre diferentes municípios capixabas ao longo de 2026.
+
+Seu trabalho busca transformar categorias da pesquisa social em imagens que evidenciem rostos, identidades, territórios, memórias e modos de vida.
