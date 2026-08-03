@@ -487,6 +487,7 @@ html:has(.lightbox:target) {
 .portfolio img {
   display: block;
   width: 100%;
+  height: auto; /* defeat the width/height attribute hint so aspect-ratio wins */
   aspect-ratio: 1;
   object-fit: cover;
 }

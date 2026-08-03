@@ -35,6 +35,12 @@ An optional `bio.md` in the same folder (plain paragraphs, no frontmatter) rende
 
 An optional `portfolio/` subfolder of images renders as a small "Portfólio" thumbnail grid after the bio — a mini portfolio beside the exposition series. Each thumbnail opens in the same lightbox as the gallery. Portfolio photos are **always published**, even before the opening: the `start` embargo covers only the series.
 
+The grid and the lightbox navigator use pre-generated 400px thumbs from `portfolio/thumbs/<same-filename>` when present (full-size files are the fallback, and the lightbox always opens them). When adding a portfolio photo, generate its thumb too:
+
+```sh
+npx -y sharp-cli -i portfolio/NN-slug.jpg -o portfolio/thumbs/NN-slug.jpg -q 75 resize 400 --
+```
+
 **Standalone pages.** Any `.md` in the project root (besides `index.md`/`README.md`) becomes `/<filename>/`, with `title` frontmatter, and is linked automatically from the homepage footer. `agradecimentos.md` (acknowledgements) is the existing example.
 
 **Photographer names are real; their texts and photos are pending** — each page carries "em breve" placeholders until the artists send their material.

@@ -107,21 +107,23 @@ def alt_text(f, name, captions=None):
     return f"{words[:1].upper()}{words[1:]} — fotografia de {name}" if words else f"Fotografia de {name}"
 
 
-def lightboxes(photos, name, fig, box, src="", captions=None):
+def lightboxes(photos, name, fig, box, src="", captions=None, thumbs=None):
     """Full-screen :target overlays with a per-set thumbnail navigator."""
-    def thumbs(current):
+    def nav(current):
         parts = []
         for m, p in enumerate(photos, 1):
             cls = ' class="current"' if m == current else ""
+            t = (thumbs or {}).get(p.name)
+            tsrc = f"{src}thumbs/{p.name}" if t else f"{src}{p.name}"
             parts.append(f'<a href="#{box}-{m:02d}"{cls}>'
-                         f'<img src="{src}{html.escape(p.name)}" alt=""{dim(p)} loading="lazy"></a>')
+                         f'<img src="{html.escape(tsrc)}" alt=""{dim(t or p)} loading="lazy"></a>')
         return "".join(parts)
 
     return "\n".join(
         f'<figure class="lightbox" id="{box}-{n:02d}">'
         f'<a class="close" href="#{fig}-{n:02d}" aria-label="Fechar">×</a>'
         f'<a class="shut" href="#{fig}-{n:02d}"><img src="{src}{html.escape(p.name)}" alt="{html.escape(alt_text(p, name, captions))}"{dim(p)}></a>'
-        f"<nav>{thumbs(n)}</nav></figure>"
+        f"<nav>{nav(n)}</nav></figure>"
         for n, p in enumerate(photos, 1)
     )
 
@@ -273,14 +275,23 @@ def build():
             (out / "portfolio").mkdir()
             for f in pf:
                 shutil.copy(f, out / "portfolio" / f.name)
+            # pre-generated 400px thumbs (portfolio/thumbs/) keep the grid light;
+            # the lightbox still opens the full-size file
+            tdir = folder / "portfolio" / "thumbs"
+            thumbs = {f.name: tdir / f.name for f in pf if (tdir / f.name).exists()}
+            if thumbs:
+                (out / "portfolio" / "thumbs").mkdir()
+                for t in thumbs.values():
+                    shutil.copy(t, out / "portfolio" / "thumbs" / t.name)
             tiles = "\n".join(
                 f'<figure id="pf-{n:02d}"><a href="#pfoto-{n:02d}">'
-                f'<img src="portfolio/{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name))}"{dim(f)} loading="lazy"></a></figure>'
+                f'<img src="portfolio/{"thumbs/" if f.name in thumbs else ""}{html.escape(f.name)}"'
+                f' alt="{html.escape(alt_text(f, raw_name))}"{dim(thumbs.get(f.name, f))} loading="lazy"></a></figure>'
                 for n, f in enumerate(pf, 1)
             )
             portfolio = (f'\n<section class="portfolio">\n<p class="label">Portfólio</p>\n'
                          f'<div class="grid">\n{tiles}\n</div>\n</section>')
-            overlays += "\n" + lightboxes(pf, raw_name, "pf", "pfoto", "portfolio/")
+            overlays += "\n" + lightboxes(pf, raw_name, "pf", "pfoto", "portfolio/", thumbs=thumbs)
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
