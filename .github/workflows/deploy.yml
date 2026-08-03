@@ -20,6 +20,20 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # embargoed series photos live in private/*.patch.enc; from opening day on,
+      # every deploy decrypts and applies them before building. UTC date matches
+      # build.py's date.today() so the gate and the embargo flip together.
+      - name: apply embargoed series patches
+        env:
+          PATCHES_KEY: ${{ secrets.PATCHES_KEY }}
+        run: |
+          start=$(sed -n 's/^start: //p' index.md)
+          if [ "$(date -u +%F)" \< "$start" ]; then echo "embargo active until $start"; exit 0; fi
+          for f in private/*.patch.enc; do
+            [ -e "$f" ] || { echo "no encrypted patches"; exit 0; }
+            openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -pass env:PATCHES_KEY -in "$f" | git apply
+            echo "applied ${f##*/}"
+          done
       - run: python3 build.py
       - uses: actions/upload-pages-artifact@v3
         with:
