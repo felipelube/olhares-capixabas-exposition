@@ -9,4 +9,6 @@ Na Ilha das Caieiras, em Vitória (ES), um grupo de meninos costuma se encontrar
 
 Não é difícil convencê-los a posar — entre um mergulho e outro, eles mesmos se oferecem para a câmera: um mortal de costas no ar, um equilíbrio improvável sobre as vigas, um polegar para cima no meio da espuma. Para quem visita a ilha, parar para assistir é quase obrigatório.
 
+A câmera congela o que o olho não segura: o arco exato do mortal, os braços abertos em contrapeso, os pés no instante em que deixam a madeira. Suspensos entre a viga e a água, os corpos viram desenho — um momento plástico, quase coreográfico, em que a brincadeira se revela também gesto poético.
+
 Registrada em preto e branco, a série acompanha esse ritual de fim de tarde, com as casas sobre palafitas e o Mestre Álvaro ao fundo: a infância ocupando, com liberdade e coragem, o mesmo lugar de onde partem os barcos de pesca.
