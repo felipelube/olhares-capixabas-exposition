@@ -139,8 +139,10 @@ def excerpt(text, limit=160):
     return first if len(first) <= limit else first[:limit].rsplit(" ", 1)[0] + "…"
 
 
-def page(title, body, depth=0, desc="", site_name="", canonical="", image="", image_file=None, accent=""):
-    css = "../" * depth + "style.css"
+def page(title, body, depth=0, desc="", site_name="", canonical="", image="", image_file=None, accent="", root=None):
+    # root overrides the relative prefix — the 404 page is served from any path
+    prefix = root if root is not None else "../" * depth
+    css = prefix + "style.css"
     e = html.escape
     seo = f'<meta name="description" content="{e(desc)}">\n' if desc else ""
     seo += f'<meta property="og:title" content="{e(title)}">\n'
@@ -165,8 +167,8 @@ def page(title, body, depth=0, desc="", site_name="", canonical="", image="", im
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
-<link rel="icon" href="{"../" * depth}icon.png" type="image/png" sizes="512x512">
-<link rel="apple-touch-icon" href="{"../" * depth}apple-touch-icon.png">
+<link rel="icon" href="{prefix}icon.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="{prefix}apple-touch-icon.png">
 {seo}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONT}">
@@ -403,6 +405,17 @@ def build():
              site_name=title, canonical=base and f"{base}/", image=og,
              image_file=(ROOT / "og.jpg") if og else None),
         encoding="utf-8")
+
+    (DIST / "404.html").write_text(
+        page(f"Página não encontrada — {title}", f"""<nav class="bar">
+<a href="/">← {html.escape(title)}</a>
+<span>{html.escape(period)}</span>
+</nav>
+<header class="artist">
+<h1>Página não <em>encontrada</em></h1>
+<p class="bio">O endereço pode ter mudado ou nunca existiu. <a href="/">Voltar para a página inicial</a>.</p>
+</header>
+""", root="/"), encoding="utf-8")
 
     if base:
         urls = [f"{base}/"] + [f"{base}/{p[1]}/" for p in pages + photographers]
