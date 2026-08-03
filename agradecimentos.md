@@ -1,5 +1,6 @@
 ---
 title: Agradecimentos
+description: A mostra Olhares Capixabas agradece ao Tribunal de Justiça do Espírito Santo, à curadora Kátia Ludolf, aos seis fotógrafos e a todos que tornaram a exposição possível.
 ---
 
 A realização desta Mostra Fotográfica é a concretização de um sonho coletivo, tornado possível graças à dedicação, ao talento e à sensibilidade de muitas mãos. Expressamos nossa gratidão a todos que tornaram este projeto uma realidade:

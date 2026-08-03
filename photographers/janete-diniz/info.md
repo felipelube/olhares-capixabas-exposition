@@ -2,6 +2,7 @@
 name: Janete Diniz
 bio: Antropóloga e fotógrafa documental, encontra na fotografia documental, de rua e de paisagem uma forma de registrar histórias, territórios e os modos de vida que compõem o cotidiano.
 instagram: https://instagram.com/janetesdiniz
+description: Mulheres, Identidades e Pertencimentos: mulheres em seus cotidianos de trabalho e de cuidado, por Janete Diniz na mostra Olhares Capixabas.
 ---
 
 A série Mulheres, Identidades e Pertencimentos reúne fotografias realizadas em diferentes contextos que retratam mulheres em seus cotidianos de trabalho e de cuidado, evidenciando a diversidade de suas experiências e territórios.

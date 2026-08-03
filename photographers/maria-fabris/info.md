@@ -2,6 +2,7 @@
 name: Maria Fabris
 bio: Maria Fabris se considera uma amante das luzes da natureza, especialmente as do nascer e pôr do sol, das festas populares e dos retratos.
 instagram: https://instagram.com/marialuizamirandafabris
+description: A Ilha das Caieiras de Maria Fabris: barcos, pescadores e as luzes do amanhecer e do entardecer em Vitória, na mostra Olhares Capixabas.
 ---
 
 A Ilha das Caieiras, localizada na região da Grande São Pedro em Vitória (ES), transformou-se de uma antiga região de pesca artesanal em um polo turístico e gastronômico após grandes obras de urbanização.

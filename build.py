@@ -58,7 +58,7 @@ addEventListener("keydown", e => {
 """
 
 
-def links_html(meta, skip=("name", "bio", "title")):
+def links_html(meta, skip=("name", "bio", "title", "description")):
     """Any non-reserved frontmatter key becomes a link; bare emails get mailto:."""
     return "\n".join(
         f'<a href="mailto:{html.escape(url)}">{html.escape(label)}</a>'
@@ -231,7 +231,8 @@ def build():
 </main>
 """
         (out / "index.html").write_text(
-            page(f"{page_title} — {title}", body, depth=1, desc=excerpt(text),
+            page(f"{page_title} — {title}", body, depth=1,
+                 desc=meta.get("description") or excerpt(text),
                  site_name=title, canonical=base and f"{base}/{md.stem}/", image=og,
                  image_file=(ROOT / "og.jpg") if og else None),
             encoding="utf-8")
@@ -349,7 +350,8 @@ def build():
 {person}{LIGHTBOX_KEYS if (started and photos) or pf else ""}"""
         (out / "index.html").write_text(
             page(f'{meta["name"]} — {title}', body, depth=1,
-                 desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
+                 desc=meta.get("description") or excerpt(statement) or meta.get("bio", ""),
+                 site_name=title,
                  canonical=base and f"{base}/{slug}/",
                  image=img_url, image_file=img_file,
                  accent=accent),
@@ -418,7 +420,7 @@ def build():
 </footer>
 """
     (DIST / "index.html").write_text(
-        page(title, body, desc=site.get("tagline", "") or excerpt(intro),
+        page(title, body, desc=site.get("description") or site.get("tagline", "") or excerpt(intro),
              site_name=title, canonical=base and f"{base}/", image=og,
              image_file=(ROOT / "og.jpg") if og else None),
         encoding="utf-8")

@@ -3,6 +3,7 @@ title: Curadoria
 name: Profa. Kátia Ludolf
 bio: Jornalista, fotógrafa e professora de fotografia, curadora da mostra.
 instagram: https://instagram.com/professorakatialudolf
+description: Profa. Kátia Ludolf — jornalista, fotógrafa e professora de fotografia — assina a curadoria da mostra Olhares Capixabas: o Espírito Santo sob seis olhares.
 ---
 
 O Espírito Santo sob seis olhares de fotógrafos talentosos.

@@ -1,6 +1,7 @@
 ---
 name: Rômulo Queiroz
 bio: Especializado em fotografia desde 2005, transita entre o ensaio feminino, a fotografia de rua, de natureza e paisagens, a fotografia publicitária e a astrofotografia.
+description: As feiras livres de Aribiri, Praia da Costa, Jardim Camburi e Jardim da Penha pelas lentes de Rômulo Queiroz na mostra Olhares Capixabas.
 ---
 
 Capixaba e canela verde, Rômulo Queiroz sempre foi um admirador das culturas capixabas, como a panela de barro, a moqueca capixaba, a dança do congo e as diversas feiras locais.
