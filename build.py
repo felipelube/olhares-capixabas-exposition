@@ -166,6 +166,7 @@ def page(title, body, depth=0, desc="", site_name="", canonical="", image="", im
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0c0c">
 <title>{e(title)}</title>
 <link rel="icon" href="{prefix}icon.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="{prefix}apple-touch-icon.png">
