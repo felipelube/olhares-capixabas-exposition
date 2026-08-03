@@ -141,6 +141,11 @@ def build():
     DIST.mkdir()
     shutil.copy(ROOT / "style.css", DIST / "style.css")
 
+    # site-wide social-share card (og.jpg, 1200x630) — fallback og:image for every page
+    og = base and (ROOT / "og.jpg").exists() and f"{base}/og.jpg" or ""
+    if og:
+        shutil.copy(ROOT / "og.jpg", DIST / "og.jpg")
+
     # standalone pages: any root .md besides index.md becomes /<name>/
     pages = []
     for md in sorted(ROOT.glob("*.md")):
@@ -168,7 +173,7 @@ def build():
 """
         (out / "index.html").write_text(
             page(f"{page_title} — {title}", body, depth=1, desc=excerpt(text),
-                 site_name=title, canonical=base and f"{base}/{md.stem}/"),
+                 site_name=title, canonical=base and f"{base}/{md.stem}/", image=og),
             encoding="utf-8")
         pages.append((page_title, md.stem))
 
@@ -249,7 +254,8 @@ def build():
             page(f'{meta["name"]} — {title}', body, depth=1,
                  desc=excerpt(statement) or meta.get("bio", ""), site_name=title,
                  canonical=base and f"{base}/{slug}/",
-                 image=base and started and photos and f"{base}/{slug}/{photos[0].name}" or "",
+                 image=(base and started and (share := next((f for f in photos if f.suffix.lower() != ".svg"), None)) and f"{base}/{slug}/{share.name}")
+                 or (base and pf and f"{base}/{slug}/portfolio/{pf[0].name}") or og,
                  accent=accent),
             encoding="utf-8")
         photographers.append((meta["name"], slug, accent))
@@ -296,7 +302,7 @@ def build():
 """
     (DIST / "index.html").write_text(
         page(title, body, desc=site.get("tagline", "") or excerpt(intro),
-             site_name=title, canonical=base and f"{base}/"),
+             site_name=title, canonical=base and f"{base}/", image=og),
         encoding="utf-8")
 
     if base:
