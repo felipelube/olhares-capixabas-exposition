@@ -2,6 +2,7 @@
 """Builds the site into dist/. Usage: python3 build.py"""
 import html
 import json
+import re
 import shutil
 from datetime import date
 from pathlib import Path
@@ -67,7 +68,23 @@ def links_html(meta, skip=("name", "bio", "title")):
     )
 
 
-def lightboxes(photos, name, fig, box, src=""):
+# ponytail: slugs drop accents; restore them for the handful of words in use
+ACCENTS = {"artesa": "artesã", "indigena": "indígena", "fumaca": "fumaça",
+           "pilao": "pilão", "fe": "fé", "maos": "mãos", "iemanja": "Iemanjá",
+           "praca": "praça", "itapua": "Itapuá", "vitoria": "Vitória"}
+
+
+def alt_text(f, name, captions=None):
+    """Alt from the 'NN-slug' filename; a matching 'Foto N — …' caption wins."""
+    num = re.match(r"(\d+)", f.stem)
+    if captions and num and int(num.group(1)) in captions:
+        return captions[int(num.group(1))]
+    slug = re.sub(r"^\d+-?", "", f.stem)
+    words = " ".join(ACCENTS.get(w, w) for w in slug.split("-")).strip()
+    return f"{words[:1].upper()}{words[1:]} — fotografia de {name}" if words else f"Fotografia de {name}"
+
+
+def lightboxes(photos, name, fig, box, src="", captions=None):
     """Full-screen :target overlays with a per-set thumbnail navigator."""
     def thumbs(current):
         parts = []
@@ -80,7 +97,7 @@ def lightboxes(photos, name, fig, box, src=""):
     return "\n".join(
         f'<figure class="lightbox" id="{box}-{n:02d}">'
         f'<a class="close" href="#{fig}-{n:02d}" aria-label="Fechar">×</a>'
-        f'<a class="shut" href="#{fig}-{n:02d}"><img src="{src}{html.escape(p.name)}" alt="Fotografia de {name}"></a>'
+        f'<a class="shut" href="#{fig}-{n:02d}"><img src="{src}{html.escape(p.name)}" alt="{html.escape(alt_text(p, name, captions))}"></a>'
         f"<nav>{thumbs(n)}</nav></figure>"
         for n, p in enumerate(photos, 1)
     )
@@ -195,20 +212,24 @@ def build():
         out.mkdir()
 
         photos = sorted(f for f in folder.iterdir() if f.suffix.lower() in IMG_EXTS)
-        name = html.escape(meta["name"])
+        raw_name = meta["name"]
+        name = html.escape(raw_name)
         links = links_html(meta)
+        # series statements may caption each photo as "Foto N — …"; reuse as alt text
+        captions = {int(m.group(1)): m.group(2).strip()
+                    for m in re.finditer(r"^Foto (\d+)\s*[—–-]\s*(.+)$", statement, re.M)}
         if started:
             for f in photos:
                 shutil.copy(f, out / f.name)
             # click a photo → CSS :target lightbox; closing links back to the thumbnail
             gallery = "\n".join(
                 f'<figure id="g-{n:02d}"><a href="#foto-{n:02d}">'
-                f'<img src="{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy"></a>'
+                f'<img src="{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name, captions))}" loading="lazy"></a>'
                 f"<figcaption>{n:02d}</figcaption></figure>"
                 for n, f in enumerate(photos, 1)
             )
             # overlays live outside .gallery so its nth-child rhythm rules can't touch them
-            overlays = lightboxes(photos, name, "g", "foto")
+            overlays = lightboxes(photos, raw_name, "g", "foto", captions=captions)
         else:
             overlays = ""
             gallery = f'<p class="label">Fotografias a partir de {opening_label}</p>\n' + "\n".join(
@@ -231,12 +252,12 @@ def build():
                 shutil.copy(f, out / "portfolio" / f.name)
             tiles = "\n".join(
                 f'<figure id="pf-{n:02d}"><a href="#pfoto-{n:02d}">'
-                f'<img src="portfolio/{html.escape(f.name)}" alt="Fotografia de {name}" loading="lazy"></a></figure>'
+                f'<img src="portfolio/{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name))}" loading="lazy"></a></figure>'
                 for n, f in enumerate(pf, 1)
             )
             portfolio = (f'\n<section class="portfolio">\n<p class="label">Portfólio</p>\n'
                          f'<div class="grid">\n{tiles}\n</div>\n</section>')
-            overlays += "\n" + lightboxes(pf, name, "pf", "pfoto", "portfolio/")
+            overlays += "\n" + lightboxes(pf, raw_name, "pf", "pfoto", "portfolio/")
         body = f"""<nav class="bar">
 <a href="../">← {html.escape(title)}</a>
 <span>{html.escape(period)}</span>
