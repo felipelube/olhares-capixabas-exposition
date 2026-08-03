@@ -1,6 +1,6 @@
 ---
 name: Felipe Lube
-bio: Fotógrafo autodidata desde 2006, dedica-se atualmente à fotografia de rua, alternando entre o preto e branco e a cor conforme a imagem exige.
+bio: Desenvolvedor de software, fotógrafo autodidata e pesquisador em História da Arte. Fotografa desde 2006 e dedica-se atualmente à fotografia de rua.
 description: Meninos saltam e mergulham do antigo deck da Ilha das Caieiras, em Vitória, na série em preto e branco de Felipe Lube para a mostra Olhares Capixabas.
 site: https://www.felipelube.com
 instagram: https://instagram.com/felipelube
