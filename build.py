@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Builds the site into dist/. Usage: python3 build.py"""
+import functools
 import html
 import json
 import re
@@ -68,6 +69,28 @@ def links_html(meta, skip=("name", "bio", "title")):
     )
 
 
+@functools.lru_cache(maxsize=None)
+def dim(path):
+    """width/height attributes from JPEG/PNG headers (stdlib) — reserves layout, kills CLS."""
+    data = path.read_bytes()
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return f' width="{int.from_bytes(data[16:20])}" height="{int.from_bytes(data[20:24])}"'
+    if data[:2] == b"\xff\xd8":  # JPEG: walk segments to the SOF frame header
+        i = 2
+        while i + 9 < len(data):
+            if data[i] != 0xFF:
+                break
+            marker = data[i + 1]
+            if marker == 0xFF:
+                i += 1
+                continue
+            if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+                return (f' width="{int.from_bytes(data[i + 7:i + 9])}"'
+                        f' height="{int.from_bytes(data[i + 5:i + 7])}"')
+            i += 2 + int.from_bytes(data[i + 2:i + 4])
+    return ""
+
+
 # ponytail: slugs drop accents; restore them for the handful of words in use
 ACCENTS = {"artesa": "artesã", "indigena": "indígena", "fumaca": "fumaça",
            "pilao": "pilão", "fe": "fé", "maos": "mãos", "iemanja": "Iemanjá",
@@ -91,13 +114,13 @@ def lightboxes(photos, name, fig, box, src="", captions=None):
         for m, p in enumerate(photos, 1):
             cls = ' class="current"' if m == current else ""
             parts.append(f'<a href="#{box}-{m:02d}"{cls}>'
-                         f'<img src="{src}{html.escape(p.name)}" alt="" loading="lazy"></a>')
+                         f'<img src="{src}{html.escape(p.name)}" alt=""{dim(p)} loading="lazy"></a>')
         return "".join(parts)
 
     return "\n".join(
         f'<figure class="lightbox" id="{box}-{n:02d}">'
         f'<a class="close" href="#{fig}-{n:02d}" aria-label="Fechar">×</a>'
-        f'<a class="shut" href="#{fig}-{n:02d}"><img src="{src}{html.escape(p.name)}" alt="{html.escape(alt_text(p, name, captions))}"></a>'
+        f'<a class="shut" href="#{fig}-{n:02d}"><img src="{src}{html.escape(p.name)}" alt="{html.escape(alt_text(p, name, captions))}"{dim(p)}></a>'
         f"<nav>{thumbs(n)}</nav></figure>"
         for n, p in enumerate(photos, 1)
     )
@@ -224,7 +247,7 @@ def build():
             # click a photo → CSS :target lightbox; closing links back to the thumbnail
             gallery = "\n".join(
                 f'<figure id="g-{n:02d}"><a href="#foto-{n:02d}">'
-                f'<img src="{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name, captions))}" loading="lazy"></a>'
+                f'<img src="{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name, captions))}"{dim(f)} loading="lazy"></a>'
                 f"<figcaption>{n:02d}</figcaption></figure>"
                 for n, f in enumerate(photos, 1)
             )
@@ -252,7 +275,7 @@ def build():
                 shutil.copy(f, out / "portfolio" / f.name)
             tiles = "\n".join(
                 f'<figure id="pf-{n:02d}"><a href="#pfoto-{n:02d}">'
-                f'<img src="portfolio/{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name))}" loading="lazy"></a></figure>'
+                f'<img src="portfolio/{html.escape(f.name)}" alt="{html.escape(alt_text(f, raw_name))}"{dim(f)} loading="lazy"></a></figure>'
                 for n, f in enumerate(pf, 1)
             )
             portfolio = (f'\n<section class="portfolio">\n<p class="label">Portfólio</p>\n'
