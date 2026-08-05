@@ -16,7 +16,7 @@ GRAIN = ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300'
          "<rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")
 
 CSS = """
-:root {{ --bg: #0c0c0c; --ink: #ece9e2; --muted: #8a8a85; --hairline: #262626;
+:root {{ --bg: {bg}; --ink: #ece9e2; --muted: #8a8a85; --hairline: {hairline};
         --accent: {accent}; --serif: "Fraunces", Georgia, serif; --sans: system-ui, sans-serif; }}
 * {{ margin: 0; box-sizing: border-box; }}
 body {{ width: 1080px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink);
@@ -61,11 +61,14 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 """
 
 
-def slide(out, name, body, accent):
+def slide(out, name, body, hue):
+    # each photographer gets a faint tint of their accent hue on the black, so the feed isn't monotone
+    css = CSS.format(accent=f"hsl({hue} 40% 62%)", bg=f"hsl({hue} 14% 6%)",
+                     hairline=f"hsl({hue} 12% 16%)", grain=GRAIN)
     out.write_text(
         f'<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">'
         f'<link rel="stylesheet" href="{FONT}">'
-        f"<style>{CSS.format(accent=accent, grain=GRAIN)}</style></head>"
+        f"<style>{css}</style></head>"
         f"<body>{body}</body></html>", encoding="utf-8")
 
 
@@ -83,8 +86,7 @@ def main(slug):
     title_h1 = f"{thead} <em>{tlast}</em>"
 
     folders = sorted(p.name for p in SRC.iterdir() if p.is_dir())
-    accent = ("hsl(15 40% 62%)" if curator  # base hue, same as the homepage title accent
-              else f"hsl({15 + folders.index(slug) * 360 // len(folders)} 40% 62%)")
+    hue = 15 if curator else 15 + folders.index(slug) * 360 // len(folders)  # base hue = homepage title accent
 
     kicker = f'<p class="kicker"><span>Exposição fotográfica</span><span>{title}</span></p>'
     bar = f'<p class="bar"><span>{e(site["period"])}</span><span>{e(site["venue"])}</span></p>'
@@ -166,14 +168,31 @@ def main(slug):
     out.mkdir(parents=True, exist_ok=True)
     for n, body in enumerate(slides, 1):
         page = out / f"slide-{n:02d}.html"
-        slide(page, name, body, accent)
+        slide(page, name, body, hue)
         subprocess.run(
             [CHROME, "--headless", "--disable-gpu", "--hide-scrollbars",
              "--force-device-scale-factor=1", "--window-size=1080,1080",
              f"--screenshot={out / f'{n:02d}.png'}", page.resolve().as_uri()],
             check=True, capture_output=True)
         page.unlink()
-    print(f"ok: {len(slides)} slides in {out}")
+
+    handle = meta.get("instagram", "").rstrip("/").rpartition("/")[2]
+    caption = [p for p in [
+        meta.get("description", ""),
+        "",
+        meta.get("bio", ""),
+        "",
+        f"Acompanhe: @{handle}" if handle else None,
+        "" if handle else None,
+        f"🗓 {site['period']} de 2026",
+        f"📍 {site['venue']}",
+        f"🔗 {site['url'].removeprefix('https://')}",
+        "",
+        "#OlharesCapixabas #FotografiaCapixaba #EspiritoSanto #Vitoria "
+        "#Fotografia #ExposicaoFotografica #MostraFotografica",
+    ] if p is not None]
+    (out / "legenda.txt").write_text("\n".join(caption) + "\n", encoding="utf-8")
+    print(f"ok: {len(slides)} slides + legenda in {out}")
 
 
 if __name__ == "__main__":
