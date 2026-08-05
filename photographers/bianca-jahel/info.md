@@ -15,7 +15,7 @@ O tempo passou, mas o encantamento permaneceu. A fotografia cresceu comigo e enc
 
 Olhares sobre Vitória
 
-Há cidades que se visitam. Vitória, eu a contemplo. Em cada igreja, em cada fachada, em cada pedra, encontro vestígios de uma história que insiste em permanecer viva. Fotografá-la é um gesto de cuidado, um compromisso com a memória e um ato de amor pela cidade que me inspira.
+Há cidades que se visitam. Vitória, eu a contemplo. Em cada igreja, em cada fachada, em cada pedra, encontro vestígios de uma história que insiste em permanecer viva. Fotografá-la é um gesto de cuidado, um compromisso com a memória é um ato de amor pela cidade que me inspira.
 
 Esta série fotográfica retrata o olhar de uma apaixonada pela cidade de Vitória. Movida pelo interesse pela História, História da Arte e Arquitetura, busco, por meio da fotografia, registrar e valorizar os patrimônios religiosos, culturais e históricos que compõem a identidade da nossa capital.
 
