@@ -8,7 +8,7 @@ O sagrado se manifesta como essa procura por significado e transcendência, um c
 
 # Sobre
 
-Da Bucher & Bucher ao Clube de Criação do FRAME e aos workshops da Mosaico Fotogaleria, Jazan fez da fotografia uma companheira de todo dia — com a câmera ou o celular. Para ele, a fotografia como arte busca a beleza, permitindo que as pessoas se conectem com algo maior que elas mesmas.
+Da Bucher & Bucher ao Clube de Criação do FRAME e aos workshops da Mosaico Fotogaleria, Jazan fez da fotografia uma companheira de todo dia. Para ele, fotografar é buscar a beleza — e permitir que as pessoas se conectem com algo maior que elas mesmas.
 
 # Legenda
 

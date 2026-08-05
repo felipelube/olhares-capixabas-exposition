@@ -1,6 +1,6 @@
 # Capa
 
-Antropóloga e fotógrafa documental, encontra na fotografia documental, de rua e de paisagem uma forma de registrar histórias, territórios e os modos de vida que compõem o cotidiano.
+Antropóloga e fotógrafa, encontra na fotografia documental, de rua e de paisagem uma forma de registrar histórias, territórios e os modos de vida que compõem o cotidiano.
 
 # Citação
 

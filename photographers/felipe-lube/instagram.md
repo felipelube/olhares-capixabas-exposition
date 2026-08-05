@@ -8,7 +8,7 @@ A câmera congela o que o olho não segura: o arco exato do mortal, os braços a
 
 # Sobre
 
-Fotografa desde 2006, quando ganhou do pai uma velha Kodak numa viagem em busca das raízes da família em Mantena (MG). Autodidata, foi finalista do Concurso de Fotografia da Rodosol, jurado do 3º Concurso de Fotografia da Ajustes e expôs na Mosaico Fotogaleria. Desenvolvedor de software por profissão, dedica-se hoje exclusivamente à fotografia de rua.
+A fotografia chegou como herança de viagem: uma velha Kodak dada pelo pai, em 2006, na estrada em busca das raízes da família em Mantena. Aprendeu sozinho a ver — um caminho que passou pelo Concurso da Rodosol, pelo júri do 3º Concurso de Fotografia da Ajustes e pela Mosaico Fotogaleria — e que hoje se demora na rua, onde o gesto comum, congelado, vira poesia.
 
 # Legenda
 
