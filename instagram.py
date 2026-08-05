@@ -96,11 +96,16 @@ def main(slug):
     photos = pf[:6]  # 10-slide cap: 4 text slides + up to 6 photos
 
     paras = [p.strip() for p in statement.split("\n\n") if p.strip()]
+    # curated per-photographer copy lives in instagram.md (quote: + caption body);
+    # heuristics below are only the fallback when it doesn't exist
+    ig_md = folder / "instagram.md"
+    ig_meta, ig_caption = parse_md(ig_md) if not curator and ig_md.exists() else ({}, "")
+
     quoted = re.search(r'"([^"]+)"', statement)
     # no quoted line: pull the first paragraph that reads like a quote — skip bare
     # title lines (too short) and walls of text (too long)
-    quote = quoted.group(1) if quoted else next(
-        (p for p in paras if 40 <= len(p) <= 240), paras[0])
+    quote = ig_meta.get("quote") or (quoted.group(1) if quoted else next(
+        (p for p in paras if 40 <= len(p) <= 240), paras[0]))
 
     bio_md = folder / "bio.md"
     bio_paras = [p.strip() for p in bio_md.read_text(encoding="utf-8").split("\n\n") if p.strip()] if bio_md.exists() else []
@@ -181,7 +186,7 @@ def main(slug):
         page.unlink()
 
     handle = meta.get("instagram", "").rstrip("/").rpartition("/")[2]
-    caption = [p for p in [
+    caption = [ig_caption] if ig_caption else [p for p in [
         meta.get("description", ""),
         "",
         meta.get("bio", ""),
