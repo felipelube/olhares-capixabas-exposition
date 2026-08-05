@@ -1,6 +1,24 @@
 ---
 name: Bianca Jahel
-description: Bianca Jahel na mostra Olhares Capixabas. Série fotográfica revelada a partir de 1º de setembro de 2026.
+bio: Professora de Educação Física na Educação Infantil, encontra na fotografia uma forma de preservar memórias e revelar a beleza dos pequenos gestos do cotidiano.
+instagram: https://instagram.com/bianca_jahel_
+description: Olhares sobre Vitória: os patrimônios religiosos, culturais e históricos da capital capixaba pelo olhar de Bianca Jahel, na mostra Olhares Capixabas.
 ---
 
-Texto da série em breve.
+O olhar que herdei
+
+Há histórias que começam com uma data e um lugar. A minha começou em Vitória, Espírito Santo, na tradicional Maternidade do Dr. Arnaldo. Como muitos capixabas nascidos na capital, foi ali que dei meus primeiros sinais de vida. Cresci cercada pelo mar, pelo cheiro da maresia e pela liberdade das praias, cenários que moldaram minha infância e que, até hoje, continuam sendo um refúgio para a alma. Sou filha de Luiz Boreli (in memoriam) e Jussara Jahel Boreli, a primogênita de quatro irmãos, embora um deles tenha partido cedo demais, deixando saudades eternas. Também fui a primeira neta da família materna, privilégio que me proporcionou uma infância repleta de carinho, histórias e afeto. Minha caminhada escolar começou na Escola ABC do Lobinho, passou pela antiga Escola O Girassol, pelo Colégio Salesiano e pelo ICT, até encontrar seu destino na Universidade Vila Velha (UVV), onde me formei em Educação Física. Mais do que escolas, foram lugares onde aprendi que o conhecimento também se constrói nas experiências e nos encontros.
+
+Mas, antes mesmo de descobrir minha profissão, eu já havia sido apresentada a uma outra forma de enxergar o mundo: a fotografia. Talvez eu nem percebesse naquela época, mas meu pai e minha avó Renê plantaram em mim essa sensibilidade. Meu pai nunca deixava uma viagem terminar sem registrar um nascer do sol, um entardecer dourado ou uma paisagem que o encantasse. Minha avó, com sua inseparável câmera Kodak, eternizava aniversários, almoços em família, brincadeiras e os pequenos acontecimentos do cotidiano. Em casa também havia uma câmera Yashica, companheira inseparável das comemorações e dos momentos simples. Fotografar era um verdadeiro ritual. Era preciso esperar o filme acabar, levá-lo para revelar e, dias depois, viver novamente a emoção de abrir o envelope com as fotografias. A ansiedade fazia parte da experiência. E quando as imagens finalmente apareciam, vinham acompanhadas de muitas risadas: olhos fechados, rostos desfocados, expressões inesperadas... Imperfeições que, curiosamente, tornavam cada fotografia ainda mais verdadeira. Hoje entendo que aquelas imagens não registravam apenas pessoas; elas guardavam sentimentos, preservavam memórias e contavam a história da nossa família muito antes de eu compreender o poder que uma fotografia pode ter.
+
+O tempo passou, mas o encantamento permaneceu. A fotografia cresceu comigo e encontrou um novo significado na profissão que escolhi. Como professora de Educação Física, passei a utilizar a câmera não apenas como instrumento de registro pedagógico e avaliação, mas como uma forma de reconhecer a beleza dos pequenos gestos: um sorriso espontâneo, uma descoberta durante a brincadeira, um olhar curioso, um abraço inesperado. Aprendi que educar e fotografar têm muito em comum: ambos exigem presença, sensibilidade e a capacidade de perceber aquilo que muitas vezes passa despercebido. Anos mais tarde, tive a alegria de conhecer o grupo Cliques, por intermédio de um antigo relacionamento. Ali encontrei pessoas que admiro profundamente, profissionais talentosos e amigos que compartilham da mesma paixão por contar histórias através das imagens. Hoje compreendo que fotografar, para mim, nunca foi apenas apertar o botão da câmera. É um exercício de memória, de gratidão e de amor pela vida. É carregar comigo o olhar que herdei do meu pai e da minha avó, encontrando poesia nas coisas simples e transformando instantes comuns em lembranças eternas. Afinal, são justamente esses pequenos momentos que, um dia, se tornam as maiores histórias da nossa vida.
+
+Olhares sobre Vitória
+
+Há cidades que se visitam. Vitória, eu a contemplo. Em cada igreja, em cada fachada, em cada pedra, encontro vestígios de uma história que insiste em permanecer viva. Fotografá-la é um gesto de cuidado, um compromisso com a memória e um ato de amor pela cidade que me inspira.
+
+Esta série fotográfica retrata o olhar de uma apaixonada pela cidade de Vitória. Movida pelo interesse pela História, História da Arte e Arquitetura, busco, por meio da fotografia, registrar e valorizar os patrimônios religiosos, culturais e históricos que compõem a identidade da nossa capital.
+
+Cada imagem é um convite à contemplação de sua arquitetura, de suas memórias e das histórias que atravessam gerações. Mais do que documentar espaços, estas fotografias expressam o profundo respeito e apreço que sinto por esse patrimônio, na esperança de que essas preciosidades históricas não sejam apagadas pelo tempo, mas preservadas como parte da nossa memória coletiva.
+
+Fotografar é impedir que a memória se renda ao esquecimento.
