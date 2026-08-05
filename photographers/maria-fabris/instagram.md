@@ -8,11 +8,7 @@ A rusticidade do lugar permitia compor com o movimento dos barcos e as incrívei
 
 # Sobre
 
-Engenheira civil formada pela UFES, é servidora aposentada do Tribunal de Justiça do Espírito Santo — onde agora expõe.
-
-Em 2016 passou a se dedicar mais intensamente à fotografia e participou de quatro mostras coletivas em Vitória.
-
-Teve várias fotos publicadas na coluna Opinião, do jornal A Gazeta.
+Sempre esteve com uma câmera na mão — desde menina fotografava a família. Engenheira civil pela UFES e servidora aposentada do Tribunal de Justiça do Espírito Santo, volta agora a expor no lugar onde trabalhou. As fotos publicadas na coluna Opinião, de A Gazeta, confirmaram a convicção de criança: suas imagens despertam o interesse das pessoas.
 
 # Legenda
 

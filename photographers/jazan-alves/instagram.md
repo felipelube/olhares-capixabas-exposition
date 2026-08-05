@@ -8,11 +8,7 @@ O sagrado se manifesta como essa procura por significado e transcendência, um c
 
 # Sobre
 
-Iniciou sua jornada na Bucher & Bucher e participa do Clube de Criação do FRAME e de workshops na Mosaico Fotogaleria.
-
-Foca em arte popular, manifestações culturais e religiosas, além de fotografia de rua.
-
-Para ele, a fotografia como arte busca a beleza, permitindo que as pessoas se conectem com algo maior que elas mesmas.
+Da Bucher & Bucher ao Clube de Criação do FRAME e aos workshops da Mosaico Fotogaleria, Jazan fez da fotografia uma companheira de todo dia — com a câmera ou o celular. Para ele, a fotografia como arte busca a beleza, permitindo que as pessoas se conectem com algo maior que elas mesmas.
 
 # Legenda
 

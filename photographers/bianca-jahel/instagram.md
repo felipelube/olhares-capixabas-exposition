@@ -8,11 +8,7 @@ Fotografar é impedir que a memória se renda ao esquecimento.
 
 # Sobre
 
-Apaixonada por dança, teatro, música e fotografia, transita entre essas linguagens com sensibilidade e olhar atento.
-
-Herdou do pai e da avó Renê o ritual de fotografar — o filme, a revelação, a emoção de abrir o envelope dias depois.
-
-Registra momentos vividos com as crianças em suas aulas e cenas simples da vida diária, valorizando o que passa despercebido.
+Herdou do pai e da avó Renê o olhar que guarda memórias: dele, os nasceres do sol registrados em cada viagem; dela, a Kodak inseparável dos aniversários e almoços de família. Hoje, entre a dança, o teatro, a música e a fotografia, registra com as crianças de suas aulas a poesia dos pequenos gestos do cotidiano.
 
 # Legenda
 

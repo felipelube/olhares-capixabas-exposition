@@ -37,6 +37,8 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 .quote {{ font-family: var(--serif); font-style: italic; font-size: 52px; line-height: 1.4;
          color: #c9c6bf; max-width: 860px; }}
 .quote em {{ color: var(--accent); font-style: italic; }}
+.prose {{ font-family: var(--serif); font-weight: 340; font-size: 40px; line-height: 1.5;
+         color: #c9c6bf; max-width: 880px; }}
 .milestones {{ margin-top: 16px; }}
 .milestones div {{ display: flex; gap: 48px; padding: 40px 0; border-top: 1px solid var(--hairline);
                   align-items: baseline; }}
@@ -122,8 +124,8 @@ def main(slug):
     def rows(items):
         out = []
         for p in items:
-            m = re.match(r"Em (\d{4}) (.*)", p, re.S)
-            year, text = (m.group(1), m.group(2)) if m else ("", p)
+            m = re.match(r"(?:Em (\d{4})|(Hoje)),?\s+(.*)", p, re.S)
+            year, text = (m.group(1) or m.group(2), m.group(3)) if m else ("", p)
             out.append(f'<div><span class="year">{year}</span><p>{e(text)}</p></div>'
                        if year else f'<div><p>{e(p)}</p></div>')
         return "".join(out)
@@ -143,7 +145,10 @@ def main(slug):
              f'<h1{h1_size}>{h1}</h1>'
              f'<p class="bio">{e(ig.get("capa") or meta.get("bio", ""))}</p></div>{bar}</div>')
     quote_slide = quoted_slide(quote, name)
-    sobre = rows_slide(f"Sobre {e(name)}", milestones)
+    # a single "Sobre" paragraph reads as prose, not a timeline — style follows content
+    sobre = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:40px">'
+             f'Sobre {e(name)}</p><p class="prose">{e(milestones[0])}</p></div>{bar}</div>'
+             if len(milestones) == 1 else rows_slide(f"Sobre {e(name)}", milestones))
     invite = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:32px">'
               f'Visite a mostra</p><h1 style="font-size:104px">{title_h1}</h1>'
               f'<p class="tagline">{e(site.get("tagline", ""))}</p>'

@@ -8,11 +8,7 @@ A série reúne fotografias que retratam mulheres em seus cotidianos de trabalho
 
 # Sobre
 
-Cientista social e mestre em Políticas Sociais, descobriu a fotografia na disciplina de Antropologia Visual, na UFES.
-
-Integrou as equipes de produção dos livros Conexões Quilombola (2025) e do Atlas das Mulheres do Espírito Santo (2026).
-
-Participa da mostra itinerante São Elas: Vozes e Rostos do Atlas das Mulheres do Espírito Santo, que percorre o estado em 2026.
+Cientista social e mestre em Políticas Sociais, descobriu a fotografia na Antropologia Visual, na UFES. Desde então transforma categorias da pesquisa em imagens: fotografou os livros Conexões Quilombola e Atlas das Mulheres do Espírito Santo, e participa da mostra itinerante São Elas, que percorre o estado em 2026.
 
 # Legenda
 
