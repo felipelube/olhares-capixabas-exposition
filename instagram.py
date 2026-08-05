@@ -49,8 +49,9 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 .roster div {{ padding: 20px 0; }}
 .roster .rname {{ font-size: 44px; }}
 .photo {{ position: absolute; inset: 0; padding: 80px 80px 150px; display: grid; place-items: center; }}
-.photo img {{ max-width: 100%; max-height: 100%; object-fit: contain; display: block; }}
-.caption {{ position: absolute; left: 80px; bottom: 64px; color: var(--ink); }}
+/* fixed px caps: percentage max-height resolves against the auto grid track, letting tall photos overflow */
+.photo img {{ max-width: 920px; max-height: 850px; object-fit: contain; display: block; }}
+.caption {{ position: absolute; left: 80px; bottom: 80px; color: var(--ink); }}
 .caption em {{ font-family: var(--serif); font-style: italic; color: var(--accent); margin-right: 24px; }}
 .details {{ display: flex; gap: 96px; margin-top: 72px; }}
 .details .label {{ margin-bottom: 8px; }}
@@ -96,7 +97,10 @@ def main(slug):
 
     paras = [p.strip() for p in statement.split("\n\n") if p.strip()]
     quoted = re.search(r'"([^"]+)"', statement)
-    quote = quoted.group(1) if quoted else paras[0]
+    # no quoted line: pull the first paragraph that reads like a quote — skip bare
+    # title lines (too short) and walls of text (too long)
+    quote = quoted.group(1) if quoted else next(
+        (p for p in paras if 40 <= len(p) <= 240), paras[0])
 
     bio_md = folder / "bio.md"
     bio_paras = [p.strip() for p in bio_md.read_text(encoding="utf-8").split("\n\n") if p.strip()] if bio_md.exists() else []
