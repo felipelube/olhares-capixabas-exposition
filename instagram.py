@@ -96,21 +96,24 @@ def main(slug):
     photos = pf[:6]  # 10-slide cap: 4 text slides + up to 6 photos
 
     paras = [p.strip() for p in statement.split("\n\n") if p.strip()]
-    # curated per-photographer copy lives in instagram.md (quote: + caption body);
-    # heuristics below are only the fallback when it doesn't exist
+    # instagram.md is the carousel script — "# Capa", "# Citação", "# Sobre",
+    # "# Legenda" sections; heuristics below only fill in whatever is missing
     ig_md = folder / "instagram.md"
-    ig_meta, ig_caption = parse_md(ig_md) if not curator and ig_md.exists() else ({}, "")
+    ig_body = ig_md.read_text(encoding="utf-8") if not curator and ig_md.exists() else ""
+    parts_ = re.split(r"^# +(.+)$", ig_body, flags=re.M)
+    ig = {parts_[i].strip().lower(): parts_[i + 1].strip() for i in range(1, len(parts_) - 1, 2)}
 
     quoted = re.search(r'"([^"]+)"', statement)
     # no quoted line: pull the first paragraph that reads like a quote — skip bare
     # title lines (too short) and walls of text (too long)
-    quote = ig_meta.get("quote") or (quoted.group(1) if quoted else next(
+    quote = ig.get("citação") or (quoted.group(1) if quoted else next(
         (p for p in paras if 40 <= len(p) <= 240), paras[0]))
 
     bio_md = folder / "bio.md"
     bio_paras = [p.strip() for p in bio_md.read_text(encoding="utf-8").split("\n\n") if p.strip()] if bio_md.exists() else []
     years = [p for p in bio_paras if re.match(r"Em \d{4}", p)]
-    milestones = (years if len(years) >= 2 else [p for p in bio_paras if len(p) <= 240])[:3]
+    milestones = ([p.strip() for p in ig["sobre"].split("\n\n") if p.strip()] if "sobre" in ig
+                  else years if len(years) >= 2 else [p for p in bio_paras if len(p) <= 240])[:3]
 
     def photo_slide(f, n):
         return (f'<div class="photo"><img src="{f.resolve().as_uri()}"></div>'
@@ -138,7 +141,7 @@ def main(slug):
     h1_size = ' style="font-size:96px"' if curator else ""
     cover = (f'<div class="frame">{kicker}<div class="grow">{role}'
              f'<h1{h1_size}>{h1}</h1>'
-             f'<p class="bio">{e(meta.get("bio", ""))}</p></div>{bar}</div>')
+             f'<p class="bio">{e(ig.get("capa") or meta.get("bio", ""))}</p></div>{bar}</div>')
     quote_slide = quoted_slide(quote, name)
     sobre = rows_slide(f"Sobre {e(name)}", milestones)
     invite = (f'<div class="frame">{kicker}<div class="grow"><p class="label" style="margin-bottom:32px">'
@@ -186,7 +189,7 @@ def main(slug):
         page.unlink()
 
     handle = meta.get("instagram", "").rstrip("/").rpartition("/")[2]
-    caption = [ig_caption] if ig_caption else [p for p in [
+    caption = [ig["legenda"]] if "legenda" in ig else [p for p in [
         meta.get("description", ""),
         "",
         meta.get("bio", ""),
