@@ -16,12 +16,12 @@ GRAIN = ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300'
          "<rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")
 
 CSS = """
-:root {{ --bg: {bg}; --ink: #ece9e2; --muted: #8a8a85; --hairline: {hairline};
+:root {{ --bg: {bg}; --ink: {ink}; --soft: {soft}; --muted: {muted}; --hairline: {hairline};
         --accent: {accent}; --serif: "Fraunces", Georgia, serif; --sans: system-ui, sans-serif; }}
 * {{ margin: 0; box-sizing: border-box; }}
 body {{ width: 1080px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink);
        font-family: var(--sans); line-height: 1.7; position: relative; }}
-body::after {{ content: ""; position: fixed; inset: 0; pointer-events: none; opacity: 0.12;
+body::after {{ content: ""; position: fixed; inset: 0; pointer-events: none; opacity: {grainop};
               background: url("{grain}"); }}
 .frame {{ position: absolute; inset: 0; padding: 80px; display: flex; flex-direction: column; }}
 .kicker, .label, .caption, .bar {{ font-size: 20px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -35,10 +35,10 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 .grow {{ flex: 1; display: flex; flex-direction: column; justify-content: center; }}
 .bio {{ margin-top: 48px; max-width: 720px; color: var(--muted); font-size: 30px; }}
 .quote {{ font-family: var(--serif); font-style: italic; font-size: 52px; line-height: 1.4;
-         color: #c9c6bf; max-width: 860px; }}
+         color: var(--soft); max-width: 860px; }}
 .quote em {{ color: var(--accent); font-style: italic; }}
 .prose {{ font-family: var(--serif); font-weight: 340; font-size: 40px; line-height: 1.5;
-         color: #c9c6bf; max-width: 880px; }}
+         color: var(--soft); max-width: 880px; }}
 .milestones {{ margin-top: 16px; }}
 .milestones div {{ display: flex; gap: 48px; padding: 40px 0; border-top: 1px solid var(--hairline);
                   align-items: baseline; }}
@@ -64,10 +64,23 @@ h1 em {{ font-style: italic; font-weight: 300; color: var(--accent); }}
 """
 
 
-def slide(out, name, body, hue):
-    # each photographer gets a faint tint of their accent hue on the black, so the feed isn't monotone
-    css = CSS.format(accent=f"hsl({hue} 40% 62%)", bg=f"hsl({hue} 14% 6%)",
-                     hairline=f"hsl({hue} 12% 16%)", grain=GRAIN)
+def palette(hue, mode):
+    """Same design language, three color moods: the site's near-black ("site",
+    curadoria), a deep saturated field ("deep") and a light paper card ("light")."""
+    if mode == "site":
+        return dict(bg=f"hsl({hue} 14% 6%)", ink="#ece9e2", soft="#c9c6bf", muted="#8a8a85",
+                    hairline=f"hsl({hue} 12% 16%)", accent=f"hsl({hue} 40% 62%)", grainop="0.12")
+    if mode == "light":
+        return dict(bg=f"hsl({hue} 45% 89%)", ink=f"hsl({hue} 50% 13%)", soft=f"hsl({hue} 40% 24%)",
+                    muted=f"hsl({hue} 22% 38%)", hairline=f"hsl({hue} 28% 76%)",
+                    accent=f"hsl({hue} 60% 36%)", grainop="0.07")
+    return dict(bg=f"hsl({hue} 45% 17%)", ink=f"hsl({hue} 40% 94%)", soft=f"hsl({hue} 30% 84%)",
+                muted=f"hsl({hue} 16% 68%)", hairline=f"hsl({hue} 28% 29%)",
+                accent=f"hsl({hue} 60% 72%)", grainop="0.12")
+
+
+def slide(out, name, body, pal):
+    css = CSS.format(grain=GRAIN, **pal)
     out.write_text(
         f'<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">'
         f'<link rel="stylesheet" href="{FONT}">'
@@ -90,6 +103,8 @@ def main(slug):
 
     folders = sorted(p.name for p in SRC.iterdir() if p.is_dir())
     hue = 15 if curator else 15 + folders.index(slug) * 360 // len(folders)  # base hue = homepage title accent
+    # curadoria keeps the site's black; photographers alternate deep color field / light paper
+    pal = palette(hue, "site" if curator else "deep" if folders.index(slug) % 2 == 0 else "light")
 
     kicker = f'<p class="kicker"><span>Exposição fotográfica</span><span>{title}</span></p>'
     bar = f'<p class="bar"><span>{e(site["period"])}</span><span>{e(site["venue"])}</span></p>'
@@ -185,7 +200,7 @@ def main(slug):
     out.mkdir(parents=True, exist_ok=True)
     for n, body in enumerate(slides, 1):
         page = out / f"slide-{n:02d}.html"
-        slide(page, name, body, hue)
+        slide(page, name, body, pal)
         subprocess.run(
             [CHROME, "--headless", "--disable-gpu", "--hide-scrollbars",
              "--force-device-scale-factor=1", "--window-size=1080,1080",
