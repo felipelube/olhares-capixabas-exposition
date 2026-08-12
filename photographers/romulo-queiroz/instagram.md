@@ -20,8 +20,11 @@ As feiras livres de Aribiri, Praia da Costa, Jardim Camburi e Jardim da Penha pe
 
 Especializado em fotografia desde 2005, transita entre o ensaio feminino, a fotografia de rua, de natureza e paisagens, a fotografia publicitária e a astrofotografia.
 
+Acompanhe: @romulogq
+
 🗓 01 — 30 de setembro de 2026
 📍 Tribunal de Justiça do Espírito Santo
+🎟 Entrada gratuita
 🔗 mostraolharescapixabas.art.br
 
 #OlharesCapixabas #FotografiaCapixaba #EspiritoSanto #Vitoria #Fotografia #ExposicaoFotografica #MostraFotografica
