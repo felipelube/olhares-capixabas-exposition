@@ -8,7 +8,7 @@ Fotografar é impedir que a memória se renda ao esquecimento.
 
 # Sobre
 
-Herdou do pai e da avó Renê o olhar que guarda memórias: dele, os nasceres do sol registrados em cada viagem; dela, a Kodak inseparável dos aniversários e almoços de família. Hoje, entre a dança, o teatro, a música e a fotografia, registra com as crianças de suas aulas aquilo que costuma passar despercebido.
+Herdou do pai e da avó o olhar que guarda memórias: dele, os nasceres do sol registrados em cada viagem; dela, a Kodak inseparável dos aniversários e almoços de família. Hoje, entre a dança, o teatro, a música e a fotografia, registra com as crianças de suas aulas aquilo que costuma passar despercebido.
 
 # Legenda
 
