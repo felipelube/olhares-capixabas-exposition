@@ -16,7 +16,7 @@ Mulheres, Identidades e Pertencimentos 📷 Na mostra Olhares Capixabas, Janete 
 
 Cientista social, mestre em Políticas Sociais e fotógrafa documental, Janete transforma categorias da pesquisa social em imagens que evidenciam rostos, identidades, territórios, memórias e modos de vida.
 
-Acompanhe: @janetesdiniz
+Siga: @janetesdiniz
 
 🗓 01 — 30 de setembro de 2026
 📍 Tribunal de Justiça do Espírito Santo

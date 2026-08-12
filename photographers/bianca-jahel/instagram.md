@@ -16,7 +16,7 @@ Olhares sobre Vitória 📷 Na mostra Olhares Capixabas, Bianca Jahel volta suas
 
 Professora de Educação Física na Educação Infantil, Bianca encontra na fotografia uma forma de preservar memórias e revelar a beleza dos pequenos gestos do cotidiano.
 
-Acompanhe: @bianca_jahel_
+Siga: @bianca_jahel_
 
 🗓 01 — 30 de setembro de 2026
 📍 Tribunal de Justiça do Espírito Santo

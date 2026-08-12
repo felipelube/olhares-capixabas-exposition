@@ -16,7 +16,7 @@ A Ilha das Caieiras 📷 Na mostra Olhares Capixabas, Maria Fabris registra o en
 
 Amante das luzes da natureza — especialmente as do nascer e pôr do sol —, Maria fotografa desde menina e segue registrando a natureza, as festas populares e o cotidiano das pessoas.
 
-Acompanhe: @marialuizamirandafabris
+Siga: @marialuizamirandafabris
 
 🗓 01 — 30 de setembro de 2026
 📍 Tribunal de Justiça do Espírito Santo

@@ -214,7 +214,7 @@ def main(slug):
         "",
         meta.get("bio", ""),
         "",
-        f"Acompanhe: @{handle}" if handle else None,
+        f"Siga: @{handle}" if handle else None,
         "" if handle else None,
         f"🗓 {site['period']} de 2026",
         f"📍 {site['venue']}",

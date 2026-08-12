@@ -16,7 +16,7 @@ Meninos das Caieiras 📷 Na mostra Olhares Capixabas, Felipe Lube acompanha o r
 
 Desenvolvedor de software, fotógrafo autodidata e pesquisador em História da Arte, Felipe fotografa desde 2006 e dedica-se atualmente à fotografia de rua.
 
-Acompanhe: @felipelube
+Siga: @felipelube
 🌐 felipelube.com
 
 🗓 01 — 30 de setembro de 2026

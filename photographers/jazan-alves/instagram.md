@@ -16,7 +16,7 @@ Da Bucher & Bucher ao Clube de Criação do FRAME e aos workshops da Mosaico Fot
 
 Inspirado pela teologia de Rubem Alves, Jazan fotografa o cotidiano com a câmera ou o celular, com foco em arte popular, manifestações culturais e religiosas e fotografia de rua.
 
-Acompanhe: @jazanalves
+Siga: @jazanalves
 
 🗓 01 — 30 de setembro de 2026
 📍 Tribunal de Justiça do Espírito Santo
