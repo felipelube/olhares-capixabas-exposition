@@ -2,5 +2,4 @@ dist/
 # embargoed series: plaintext patches and key stay local; only encrypted copies are committed
 private/*
 !private/*.enc
-promo/
 __pycache__/
